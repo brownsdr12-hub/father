@@ -380,8 +380,11 @@
       if (/асцендент/i.test(role)) return '✧';
       return '✦';
     };
-    $('free-reading-content').innerHTML = positions.map((section, idx) => `
-      <section class="reading-block ${idx === 2 || /асцендент/i.test(section.role) ? 'is-ascendant' : ''}">
+    $('free-reading-content').innerHTML = positions.map((section, idx) => {
+      const isAsc = idx === 2 || /асцендент/i.test(section.role);
+      const ascStyle = isAsc ? 'style="grid-column: 1 / -1 !important; justify-self: center !important; margin: 0 auto !important; width: 100% !important; max-width: 620px !important;"' : '';
+      return `
+      <section class="reading-block ${isAsc ? 'is-ascendant' : ''}" ${ascStyle}>
         <h4>
           <span class="reading-block-glyph" aria-hidden="true">${getGlyph(section.role)}</span>
           <span>${escapeHtml(section.role)} · ${escapeHtml(section.sign)}</span>
@@ -390,7 +393,8 @@
           ${section.blocks.map((block) => `<div class="reading-item"><b>${escapeHtml(block.label)}</b><p>${readableText(block)}</p></div>`).join('')}
         </div>
       </section>
-    `).join('');
+    `;
+    }).join('');
   }
   $('open-year').addEventListener('click', () => activate('report'));
 
