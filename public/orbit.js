@@ -380,8 +380,8 @@
       if (/асцендент/i.test(role)) return '✧';
       return '✦';
     };
-    $('free-reading-content').innerHTML = positions.map((section) => `
-      <section class="reading-block">
+    $('free-reading-content').innerHTML = positions.map((section, idx) => `
+      <section class="reading-block ${idx === 2 || /асцендент/i.test(section.role) ? 'is-ascendant' : ''}">
         <h4>
           <span class="reading-block-glyph" aria-hidden="true">${getGlyph(section.role)}</span>
           <span>${escapeHtml(section.role)} · ${escapeHtml(section.sign)}</span>
