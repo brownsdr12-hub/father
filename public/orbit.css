@@ -49,12 +49,15 @@
   #report-content{display:block!important}
   .atlas-page{background:#fffcf6!important;color:#172b3a!important;break-inside:avoid!important;break-after:page!important;border:0!important;box-shadow:none!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   .atlas-page.cover{background:#0d1a2e!important;color:#f9f2e6!important}
-  .atlas-page.duet-theme{background:#fff8fa!important;color:#321427!important;border:0!important;box-shadow:none!important}
+  .atlas-page.duet-theme{background:linear-gradient(165deg,#1b0922 0%,#240d2e 50%,#16071d 100%)!important;color:#f5e8ee!important;border:0!important;box-shadow:none!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   .atlas-page.duet-theme.cover{background:linear-gradient(165deg,#2b0b26 0%,#3a1133 50%,#20061c 100%)!important;color:#fceef3!important}
-  .duet-date-row.gold{background:#fffcf2!important;border-left:3.5px solid #c99335!important}
-  .duet-date-row.caution{background:#fff2f5!important;border-left:3.5px solid #d8486f!important}
-  .duet-cal .gold-day{background:#fff2d4!important;border:1.5px solid #c99335!important;color:#684800!important}
-  .duet-cal .caution-day{background:#ffebee!important;border:1.5px solid #d8486f!important;color:#8c1032!important}
+  .atlas-page.duet-theme h1,.atlas-page.duet-theme h2,.atlas-page.duet-theme h3,.atlas-page.duet-theme h4{color:#f7d597!important}
+  .atlas-page.duet-theme .atlas-lead{color:#ffe4ec!important}
+  .atlas-page.duet-theme p{color:#f3e6ee!important}
+  .duet-date-row.gold{background:#3e2614!important;border-left:3.5px solid #f7d597!important}
+  .duet-date-row.caution{background:#44122a!important;border-left:3.5px solid #ff70a6!important}
+  .duet-cal .gold-day{background:#f7d597!important;color:#17091e!important}
+  .duet-cal .caution-day{background:#d8486f!important;color:#ffffff!important}
   details:not([open])>*:not(summary){display:block!important}
   details summary:after{display:none!important}
 }
@@ -392,44 +395,46 @@
   font-size: 14px;
 }
 
-/* Duet Theme: Romantic Blush Silk & Royal Velvet Burgundy (Luxe Editorial) */
+/* Duet Theme: Luxury Dark Velvet Plum & Champagne Gold (AAA Editorial Contrast) */
 .atlas-page.duet-theme {
-  background: #fff8fa !important;
-  color: #321427 !important;
-  border: 1px solid #ebd3dc !important;
-  box-shadow: 0 12px 35px rgba(50, 16, 38, 0.08) !important;
+  background: linear-gradient(165deg, #1b0922 0%, #240d2e 50%, #16071d 100%) !important;
+  color: #f5e8ee !important;
+  border: 1px solid rgba(247, 213, 151, 0.28) !important;
+  box-shadow: 0 16px 45px rgba(12, 4, 16, 0.55) !important;
 }
 .atlas-page.duet-theme:before {
-  border: 1px solid #f2dbe3 !important;
+  border: 1px solid rgba(247, 213, 151, 0.16) !important;
 }
 .atlas-page.duet-theme h1,
 .atlas-page.duet-theme h2,
 .atlas-page.duet-theme h3 {
   font-family: 'Cormorant', Georgia, serif !important;
-  color: #4a102e !important;
+  color: #f7d597 !important;
+  text-shadow: 0 0 20px rgba(247, 213, 151, 0.2) !important;
 }
 .atlas-page.duet-theme h2 {
-  font-size: 43px;
-  line-height: 1.05;
-  margin: 9px 0 13px;
-  color: #4a102e !important;
+  font-size: 42px !important;
+  line-height: 1.05 !important;
+  margin: 8px 0 12px !important;
+  color: #f7d597 !important;
 }
 .atlas-page.duet-theme p {
-  color: #341829 !important;
-  font-size: 12px;
-  line-height: 1.6;
+  color: #f3e6ee !important;
+  font-size: 12.5px !important;
+  line-height: 1.62 !important;
 }
 .atlas-page.duet-theme .atlas-lead {
-  color: #56153b !important;
+  color: #ffe4ec !important;
   font-size: 15px !important;
-  line-height: 1.5 !important;
-  font-weight: 500;
+  line-height: 1.55 !important;
+  font-weight: 500 !important;
 }
 .atlas-page.duet-theme .atlas-num {
-  color: #946981 !important;
+  color: #b886a2 !important;
+  letter-spacing: 0.16em !important;
 }
 .duet-kicker {
-  color: #9c2e58 !important;
+  color: #ff9ebb !important;
   font-size: 9.5px !important;
   font-weight: 800 !important;
   letter-spacing: 0.18em !important;
@@ -535,12 +540,12 @@
 .duet-section-block b {
   display: block;
   font-size: 13px;
-  color: #521334;
+  color: #f7d597 !important;
   margin-bottom: 5px;
   letter-spacing: 0.02em;
 }
 .duet-section-block p {
-  color: #341829 !important;
+  color: #f3e6ee !important;
   font-size: 12.5px;
   line-height: 1.6;
 }
@@ -554,8 +559,8 @@
 }
 .elem-card {
   flex: 1;
-  background: #fff0f5 !important;
-  border: 1px solid #f0cbd7 !important;
+  background: rgba(46, 16, 54, 0.72) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
   border-radius: 14px;
   padding: 14px 12px;
   text-align: center;
@@ -564,7 +569,7 @@
   display: block;
   font-size: 9px;
   letter-spacing: 0.14em;
-  color: #8c3b65 !important;
+  color: #ff9ebb !important;
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -572,20 +577,21 @@
   display: block;
   font-size: 18px;
   font-family: var(--display);
-  color: #541235 !important;
+  color: #f7d597 !important;
 }
 .elem-card span {
   font-size: 10.5px;
-  color: #6a3452 !important;
+  color: #f5e8ee !important;
 }
 .elem-heart {
   font-size: 26px;
-  color: #d8486f;
+  color: #ff70a6 !important;
   flex-shrink: 0;
 }
 .duet-combo-callout {
-  background: #fdf0f4 !important;
-  border-left: 3px solid #d8486f !important;
+  background: rgba(56, 18, 64, 0.65) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
+  border-left: 3.5px solid #f7d597 !important;
   border-radius: 0 10px 10px 0;
   padding: 12px 14px;
   margin: 14px 0 18px;
@@ -593,50 +599,50 @@
 .duet-combo-callout b {
   display: block;
   font-size: 13px;
-  color: #5b1339 !important;
+  color: #f7d597 !important;
   margin-bottom: 4px;
 }
 .duet-combo-callout p {
   margin: 0;
   font-size: 12px;
-  color: #341829 !important;
+  color: #f3e6ee !important;
   line-height: 1.5;
 }
 
 /* Planets Table */
 .duet-planets-table {
-  border: 1px solid #ebd3dc !important;
+  border: 1px solid rgba(247, 213, 151, 0.22) !important;
   border-radius: 12px;
   overflow: hidden;
   margin: 14px 0;
-  background: #ffffff;
+  background: rgba(36, 12, 42, 0.65) !important;
 }
 .duet-table-row {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
   padding: 9px 12px;
   font-size: 11.5px;
-  border-bottom: 1px solid #f2dfe6;
+  border-bottom: 1px solid rgba(247, 213, 151, 0.12) !important;
   align-items: center;
-  color: #341829;
+  color: #f5e8ee !important;
 }
 .duet-table-row:last-child {
   border-bottom: 0;
 }
 .duet-table-row.head {
-  background: #fdeaf0 !important;
+  background: rgba(56, 18, 64, 0.85) !important;
   font-weight: 700;
-  font-size: 10.5px;
-  color: #641a3f !important;
+  font-size: 10px;
+  color: #ff9ebb !important;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 .duet-table-row b {
-  color: #4a102e;
+  color: #ffd699 !important;
 }
-.tag-good { color: #1c7a6e; font-weight: 700; font-size: 10px; }
-.tag-warm { color: #a66a00; font-weight: 700; font-size: 10px; }
-.tag-spark { color: #b82352; font-weight: 700; font-size: 10px; }
+.tag-good { color: #f7d597 !important; font-weight: 700; font-size: 10px; }
+.tag-warm { color: #ff9ebb !important; font-weight: 700; font-size: 10px; }
+.tag-spark { color: #7ce1db !important; font-weight: 700; font-size: 10px; }
 
 /* Gold & Caution Date Cards (Ultra-crisp & high contrast) */
 .duet-dates-box {
@@ -652,53 +658,53 @@
   border-radius: 12px;
 }
 .duet-date-row.gold {
-  background: #fffcf2 !important;
-  border: 1px solid #f6e6c4 !important;
-  border-left: 3.5px solid #c99335 !important;
+  background: rgba(62, 38, 20, 0.75) !important;
+  border: 1px solid rgba(247, 213, 151, 0.45) !important;
+  border-left: 4px solid #f7d597 !important;
 }
 .duet-date-row.caution {
-  background: #fff2f5 !important;
-  border: 1px solid #f9cad7 !important;
-  border-left: 3.5px solid #d8486f !important;
+  background: rgba(68, 18, 42, 0.75) !important;
+  border: 1px solid rgba(255, 112, 166, 0.45) !important;
+  border-left: 4px solid #ff70a6 !important;
 }
 .date-badge {
   font-size: 11px;
   font-weight: 800;
   padding: 4px 9px;
   border-radius: 8px;
-  background: #fff3d4 !important;
-  border: 1px solid #c99335 !important;
-  color: #704c00 !important;
+  background: linear-gradient(135deg, #c99335, #e5b35a) !important;
+  border: 1px solid #f7d597 !important;
+  color: #17091e !important;
   white-space: nowrap;
 }
 .date-badge.warn {
-  background: #ffe3ea !important;
-  border: 1px solid #d8486f !important;
-  color: #8c1233 !important;
+  background: linear-gradient(135deg, #a61c48, #d8486f) !important;
+  border: 1px solid #ff70a6 !important;
+  color: #ffffff !important;
 }
 .duet-date-row strong {
   display: block;
   font-size: 13.5px;
-  color: #291404 !important;
+  color: #f7d597 !important;
   margin-bottom: 4px;
 }
 .duet-date-row.caution strong {
-  color: #360714 !important;
+  color: #ff9ebb !important;
 }
 .duet-date-row p {
   margin: 0;
   font-size: 12px;
-  color: #3d2c18 !important;
+  color: #fff4db !important;
   line-height: 1.5;
 }
 .duet-date-row.caution p {
-  color: #451b2a !important;
+  color: #ffedf3 !important;
 }
 
 /* Practice Callout & Quotes */
 .duet-practice-callout {
-  border: 1px solid #edd3e6 !important;
-  background: #faf2f8 !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
+  background: rgba(46, 16, 54, 0.65) !important;
   border-radius: 12px;
   padding: 13px 15px;
   margin: 14px 0;
@@ -706,19 +712,19 @@
 .duet-practice-callout b {
   display: block;
   font-size: 12.5px;
-  color: #6a1851 !important;
+  color: #f7d597 !important;
   margin-bottom: 4px;
 }
 .duet-practice-callout p {
   margin: 0;
   font-size: 12px;
-  color: #341829 !important;
+  color: #f5e8ee !important;
   line-height: 1.5;
 }
 .duet-quote {
-  border-left: 3px solid #d87b9b !important;
-  background: rgba(253, 235, 241, 0.55) !important;
-  color: #521539 !important;
+  border-left: 3px solid #ff9ebb !important;
+  background: rgba(56, 18, 64, 0.55) !important;
+  color: #f7d597 !important;
   font: italic 21px/1.25 'Cormorant', Georgia, serif !important;
   padding: 10px 14px !important;
   margin: 16px 0 !important;
@@ -734,7 +740,7 @@
 }
 .duet-cal .head {
   border: 0 !important;
-  color: #7a3558 !important;
+  color: #e5b8d0 !important;
   font-weight: 700 !important;
   font-size: 10px !important;
   text-align: center;
@@ -745,10 +751,10 @@
   background: transparent !important;
 }
 .duet-cal span:not(.head):not(.empty) {
-  background: #ffffff;
-  border: 1px solid #ebdbe2;
+  background: rgba(38, 13, 44, 0.55) !important;
+  border: 1px solid rgba(247, 213, 151, 0.18) !important;
   border-radius: 6px;
-  color: #2e1424;
+  color: #ffffff !important;
   font-size: 11px;
   font-weight: 600;
   min-height: 27px;
@@ -757,76 +763,76 @@
   justify-content: center;
 }
 .duet-cal .gold-day {
-  background: #fff2d4 !important;
-  border: 1.5px solid #c99335 !important;
-  color: #684800 !important;
+  background: linear-gradient(135deg, #c99335, #e5b35a) !important;
+  border: 1.5px solid #f7d597 !important;
+  color: #17091e !important;
   font-weight: 800 !important;
-  box-shadow: 0 2px 6px rgba(201, 147, 53, 0.25);
+  box-shadow: 0 0 10px rgba(247, 213, 151, 0.6) !important;
 }
 .duet-cal .caution-day {
-  background: #ffebee !important;
-  border: 1.5px solid #d8486f !important;
-  color: #8c1032 !important;
+  background: linear-gradient(135deg, #a61c48, #d8486f) !important;
+  border: 1.5px solid #ff70a6 !important;
+  color: #ffffff !important;
   font-weight: 800 !important;
 }
 .duet-cal .phase {
-  background: #f7eef3 !important;
-  border-color: #dfcbd4 !important;
-  color: #5a2c47 !important;
+  background: rgba(45, 20, 60, 0.7) !important;
+  border-color: rgba(124, 225, 219, 0.3) !important;
+  color: #7ce1db !important;
 }
-.atlas-legend i.gold { background: #c99335; border-radius: 50%; }
+.atlas-legend i.gold { background: #f7d597; border-radius: 50%; }
 .atlas-legend i.warn { background: #d8486f; border-radius: 50%; }
 
 /* Method, Contact & Manifesto */
 .duet-method > div {
-  border-top: 1px solid #edd5df !important;
+  border-top: 1px solid rgba(247, 213, 151, 0.16) !important;
   padding-top: 12px;
 }
 .duet-method b {
   font-size: 13px;
-  color: #521539 !important;
+  color: #f7d597 !important;
 }
 .duet-method p {
   margin: 6px 0;
-  color: #341829 !important;
+  color: #f3e6ee !important;
 }
 .duet-contact {
-  background: #fbf0f5 !important;
-  border: 1px solid #ecd3df !important;
+  background: rgba(46, 16, 54, 0.72) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
   border-radius: 12px;
   padding: 14px 16px;
   margin: 16px 0;
 }
 .duet-contact h3 {
   font-size: 18px;
-  color: #541235 !important;
+  color: #f7d597 !important;
   margin: 0 0 6px;
 }
 .duet-contact p {
   margin: 0;
-  color: #341829 !important;
+  color: #f5e8ee !important;
   font-size: 12.5px;
 }
 .duet-export {
-  background: #fff8f2 !important;
-  border: 1px solid #fae6cb !important;
+  background: rgba(46, 16, 54, 0.72) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
   border-radius: 12px;
   padding: 14px 16px;
   margin: 16px 0;
 }
 .duet-export h3 {
   font-size: 18px;
-  color: #633f0b !important;
+  color: #f7d597 !important;
   margin: 0 0 6px;
 }
 .duet-export p {
   margin: 0 0 10px;
-  color: #423018 !important;
+  color: #f5e8ee !important;
   font-size: 12px;
 }
 .duet-primary-btn {
   background: linear-gradient(105deg, #c99335, #e0a948) !important;
-  color: #ffffff !important;
+  color: #17091e !important;
   font-weight: 700 !important;
   border: 0 !important;
   padding: 11px 18px !important;
@@ -835,34 +841,34 @@
   box-shadow: 0 4px 12px rgba(201, 147, 53, 0.25);
 }
 .duet-manifesto-box {
-  background: #fff3f6 !important;
-  border: 1px solid #f2cad6 !important;
+  background: rgba(46, 16, 54, 0.72) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
   border-radius: 16px;
   padding: 18px 20px;
   margin: 18px 0;
 }
 .duet-manifesto-box h3 {
   font-size: 19px !important;
-  color: #4a102e !important;
+  color: #f7d597 !important;
   margin: 0 0 12px !important;
 }
 .duet-manifesto-box ol {
   margin: 0;
   padding-left: 20px;
-  color: #341829;
+  color: #f5e8ee;
 }
 .duet-manifesto-box li {
   margin-bottom: 10px;
   font-size: 12.5px;
   line-height: 1.55;
-  color: #341829 !important;
+  color: #f5e8ee !important;
 }
 .duet-manifesto-box li strong {
-  color: #541235 !important;
+  color: #ffd699 !important;
 }
 .duet-manifesto-box blockquote {
   font: italic 18px/1.3 'Cormorant', Georgia, serif;
-  color: #6a1a45;
+  color: #f7d597 !important;
   border-left: 2px solid #d87b9b;
   padding-left: 12px;
   margin: 16px 0 0;

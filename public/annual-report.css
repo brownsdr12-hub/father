@@ -79,4 +79,476 @@
   .atlas-end-actions,.atlas-export button,#calendar-export-status{display:none!important}
 }
 @page{size:A4;margin:0}
-@media print{html,body,.app-shell,#view-report,#report-unlocked,#report-content{background:#fff!important;min-height:0!important}}
+@media print{
+  html,body,.app-shell,#view-report,#report-unlocked,#report-content{background:#fff!important;min-height:0!important}
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   DUET ATLAS OF UNION: LUXURY DARK EDITORIAL PALETTE (AAA CONTRAST)
+   Deep Velvet Night Wine (#17091e) + Champagne Gold (#F7D597) + Silk Ivory (#F5E8EE)
+   ══════════════════════════════════════════════════════════════════ */
+
+.atlas-page.duet-theme {
+  background: linear-gradient(165deg, #1b0922 0%, #240d2e 50%, #16071d 100%) !important;
+  color: #f5e8ee !important;
+  border: 1px solid rgba(247, 213, 151, 0.28) !important;
+  box-shadow: 0 16px 45px rgba(12, 4, 16, 0.55) !important;
+}
+
+.atlas-page.duet-theme:before {
+  border: 1px solid rgba(247, 213, 151, 0.16) !important;
+}
+
+/* Typography Hierarchy */
+.atlas-page.duet-theme h1,
+.atlas-page.duet-theme h2,
+.atlas-page.duet-theme h3,
+.atlas-page.duet-theme h4 {
+  font-family: 'Cormorant', Georgia, serif !important;
+  color: #f7d597 !important;
+  text-shadow: 0 0 20px rgba(247, 213, 151, 0.2) !important;
+}
+
+.atlas-page.duet-theme h1 {
+  color: #ffffff !important;
+}
+
+.atlas-page.duet-theme h1 em {
+  color: #ff9ebb !important;
+  font-style: italic !important;
+}
+
+.atlas-page.duet-theme h2 {
+  font-size: 42px !important;
+  line-height: 1.05 !important;
+  margin: 8px 0 12px !important;
+  color: #f7d597 !important;
+}
+
+.atlas-page.duet-theme h3 {
+  font-size: 24px !important;
+  color: #ffd699 !important;
+  margin: 16px 0 8px !important;
+}
+
+.atlas-page.duet-theme .atlas-lead {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  color: #ffe4ec !important;
+  font-weight: 500 !important;
+}
+
+.atlas-page.duet-theme p {
+  color: #f3e6ee !important;
+  font-size: 12.5px !important;
+  line-height: 1.62 !important;
+  margin: 0 0 12px !important;
+}
+
+.atlas-page.duet-theme .atlas-small {
+  color: #cca4ba !important;
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+}
+
+.atlas-page.duet-theme .atlas-num {
+  color: #b886a2 !important;
+  font-size: 9.5px !important;
+  letter-spacing: 0.16em !important;
+}
+
+.atlas-page.duet-theme .duet-kicker,
+.atlas-page.duet-theme .atlas-kicker {
+  color: #ff9ebb !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+
+.atlas-page.duet-theme .duet-rule,
+.atlas-page.duet-theme .atlas-rule {
+  width: 48px !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, #f7d597, rgba(247, 213, 151, 0.2)) !important;
+  margin: 0 0 16px !important;
+}
+
+.atlas-page.duet-theme .duet-month-pill {
+  background: rgba(74, 22, 60, 0.65) !important;
+  border: 1px solid rgba(255, 158, 187, 0.35) !important;
+  color: #ffc2d4 !important;
+  border-radius: 30px !important;
+  padding: 5px 12px !important;
+  font-size: 9.5px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  display: inline-block !important;
+  margin-bottom: 12px !important;
+}
+
+/* Card Panels & Containers */
+.atlas-page.duet-theme .elem-card,
+.atlas-page.duet-theme .duet-combo-callout,
+.atlas-page.duet-theme .duet-node-item,
+.atlas-page.duet-theme .duet-golden-rule-box,
+.atlas-page.duet-theme .duet-manifesto-box,
+.atlas-page.duet-theme .duet-expert-card,
+.atlas-page.duet-theme .duet-meta-badge,
+.atlas-page.duet-theme .duet-features-grid div {
+  background: rgba(46, 16, 54, 0.72) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
+  border-radius: 12px !important;
+  padding: 13px 15px !important;
+}
+
+.atlas-page.duet-theme .elem-card small {
+  color: #ff9ebb !important;
+  font-size: 9.5px !important;
+  letter-spacing: 0.12em !important;
+}
+
+.atlas-page.duet-theme .elem-card strong {
+  color: #f7d597 !important;
+  font-size: 17px !important;
+  font-family: 'Cormorant', Georgia, serif !important;
+}
+
+.atlas-page.duet-theme .elem-card span {
+  color: #f5e8ee !important;
+  font-size: 11px !important;
+}
+
+.atlas-page.duet-theme .elem-heart {
+  color: #ff70a6 !important;
+  font-size: 26px !important;
+}
+
+.atlas-page.duet-theme .duet-combo-callout b {
+  color: #f7d597 !important;
+  font-size: 13px !important;
+  display: block !important;
+  margin-bottom: 5px !important;
+}
+
+.atlas-page.duet-theme .duet-combo-callout p {
+  color: #f5e8ee !important;
+  margin: 0 !important;
+}
+
+/* Synastry Table */
+.atlas-page.duet-theme .duet-planets-table {
+  border: 1px solid rgba(247, 213, 151, 0.22) !important;
+  border-radius: 12px !important;
+  background: rgba(38, 13, 44, 0.6) !important;
+  overflow: hidden !important;
+  margin: 14px 0 !important;
+}
+
+.atlas-page.duet-theme .duet-table-row {
+  display: grid !important;
+  grid-template-columns: 1.4fr 1fr 1fr 1.3fr !important;
+  padding: 9px 12px !important;
+  border-bottom: 1px solid rgba(247, 213, 151, 0.12) !important;
+  font-size: 11px !important;
+  color: #f5e8ee !important;
+  align-items: center !important;
+}
+
+.atlas-page.duet-theme .duet-table-row.head {
+  background: rgba(56, 18, 64, 0.85) !important;
+  color: #ff9ebb !important;
+  font-weight: 700 !important;
+  font-size: 9.5px !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+.atlas-page.duet-theme .duet-table-row b {
+  color: #ffd699 !important;
+}
+
+.atlas-page.duet-theme .tag-good {
+  color: #f7d597 !important;
+  font-weight: 600 !important;
+}
+
+.atlas-page.duet-theme .tag-warm {
+  color: #ff9ebb !important;
+  font-weight: 600 !important;
+}
+
+.atlas-page.duet-theme .tag-spark {
+  color: #7ce1db !important;
+  font-weight: 600 !important;
+}
+
+/* Nodes of Connection (Page 3) */
+.atlas-page.duet-theme .duet-node-item {
+  margin-bottom: 11px !important;
+  background: rgba(46, 16, 54, 0.72) !important;
+  border: 1px solid rgba(247, 213, 151, 0.25) !important;
+  border-radius: 12px !important;
+  padding: 13px 16px !important;
+}
+
+.atlas-page.duet-theme .node-icon {
+  color: #f7d597 !important;
+  font-size: 18px !important;
+  margin-bottom: 4px !important;
+}
+
+.atlas-page.duet-theme .duet-node-item h4 {
+  color: #ff9ebb !important;
+  font-size: 16px !important;
+  margin: 0 0 6px !important;
+  font-weight: 600 !important;
+}
+
+.atlas-page.duet-theme .duet-node-item p {
+  color: #f5e8ee !important;
+  font-size: 12px !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+.atlas-page.duet-theme .duet-golden-rule-box b {
+  color: #f7d597 !important;
+  font-size: 13px !important;
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+
+.atlas-page.duet-theme .duet-golden-rule-box p {
+  color: #f5e8ee !important;
+  margin: 0 !important;
+}
+
+/* Date Rows: Gold & Caution */
+.atlas-page.duet-theme .duet-date-row {
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  margin: 10px 0 !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.gold {
+  background: rgba(62, 38, 20, 0.75) !important;
+  border: 1px solid rgba(247, 213, 151, 0.45) !important;
+  border-left: 4px solid #f7d597 !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.gold .duet-date-badge {
+  background: linear-gradient(135deg, #c99335, #e5b35a) !important;
+  color: #17091e !important;
+  font-weight: 800 !important;
+  font-size: 10.5px !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  white-space: nowrap !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.gold b {
+  color: #f7d597 !important;
+  font-size: 13px !important;
+  display: block !important;
+  margin-bottom: 3px !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.gold p {
+  color: #fff4db !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.caution {
+  background: rgba(68, 18, 42, 0.75) !important;
+  border: 1px solid rgba(255, 112, 166, 0.45) !important;
+  border-left: 4px solid #ff70a6 !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.caution .duet-date-badge {
+  background: linear-gradient(135deg, #a61c48, #d8486f) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 10.5px !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  white-space: nowrap !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.caution b {
+  color: #ff9ebb !important;
+  font-size: 13px !important;
+  display: block !important;
+  margin-bottom: 3px !important;
+}
+
+.atlas-page.duet-theme .duet-date-row.caution p {
+  color: #ffedf3 !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* Quotes */
+.atlas-page.duet-theme blockquote {
+  font: italic 18px/1.35 'Cormorant', Georgia, serif !important;
+  color: #f7d597 !important;
+  border-left: 2.5px solid #ff9ebb !important;
+  padding: 6px 0 6px 14px !important;
+  margin: 14px 0 !important;
+}
+
+/* Calendar Grid */
+.atlas-page.duet-theme .duet-cal {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 4px !important;
+  margin: 12px 0 8px !important;
+}
+
+.atlas-page.duet-theme .duet-cal span {
+  border: 1px solid rgba(247, 213, 151, 0.18) !important;
+  border-radius: 6px !important;
+  min-height: 24px !important;
+  padding: 4px 0 !important;
+  text-align: center !important;
+  font-size: 10.5px !important;
+  background: rgba(38, 13, 44, 0.55) !important;
+  color: #ffffff !important;
+}
+
+.atlas-page.duet-theme .duet-cal .head {
+  border: 0 !important;
+  background: transparent !important;
+  color: #e5b8d0 !important;
+  font-weight: 700 !important;
+  font-size: 9.5px !important;
+  text-transform: uppercase !important;
+}
+
+.atlas-page.duet-theme .duet-cal .empty {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.atlas-page.duet-theme .duet-cal .gold-day {
+  background: linear-gradient(135deg, #c99335, #e5b35a) !important;
+  border: 1.5px solid #f7d597 !important;
+  color: #17091e !important;
+  font-weight: 900 !important;
+  box-shadow: 0 0 10px rgba(247, 213, 151, 0.6) !important;
+}
+
+.atlas-page.duet-theme .duet-cal .caution-day {
+  background: linear-gradient(135deg, #a61c48, #d8486f) !important;
+  border: 1.5px solid #ff70a6 !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+.atlas-page.duet-theme .duet-cal .personal {
+  background: rgba(80, 24, 76, 0.7) !important;
+  border-color: rgba(255, 158, 187, 0.4) !important;
+  color: #ffc2d4 !important;
+}
+
+.atlas-page.duet-theme .duet-cal .phase {
+  background: rgba(45, 20, 60, 0.7) !important;
+  border-color: rgba(124, 225, 219, 0.3) !important;
+  color: #7ce1db !important;
+}
+
+.atlas-page.duet-theme .atlas-legend {
+  font-size: 9.5px !important;
+  color: #c492aa !important;
+  margin-top: 8px !important;
+}
+
+.atlas-page.duet-theme .atlas-legend i.gold {
+  background: #f7d597 !important;
+}
+
+.atlas-page.duet-theme .atlas-legend i.warn {
+  background: #d8486f !important;
+}
+
+/* Page 17 & Actions */
+.atlas-page.duet-theme .duet-manifesto-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin: 14px 0 !important;
+}
+
+.atlas-page.duet-theme .manifesto-rule {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: baseline !important;
+  border-bottom: 1px solid rgba(247, 213, 151, 0.12) !important;
+  padding-bottom: 8px !important;
+}
+
+.atlas-page.duet-theme .rule-num {
+  font: 700 15px 'Cormorant', Georgia, serif !important;
+  color: #f7d597 !important;
+  min-width: 18px !important;
+}
+
+.atlas-page.duet-theme .rule-body strong {
+  color: #ffd699 !important;
+  font-size: 12.5px !important;
+}
+
+.atlas-page.duet-theme .rule-body p {
+  color: #f5e8ee !important;
+  margin: 2px 0 0 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PRINT MEDIA RULES FOR DUET THEME: PRESERVE EXACT DARK EDITORIAL
+   ══════════════════════════════════════════════════════════════════ */
+@media print {
+  .atlas-page.duet-theme {
+    background: linear-gradient(165deg, #1b0922 0%, #240d2e 50%, #16071d 100%) !important;
+    color: #f5e8ee !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .atlas-page.duet-theme * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .atlas-page.duet-theme h1,
+  .atlas-page.duet-theme h2,
+  .atlas-page.duet-theme h3,
+  .atlas-page.duet-theme h4 {
+    color: #f7d597 !important;
+  }
+  .atlas-page.duet-theme .atlas-lead {
+    color: #ffe4ec !important;
+  }
+  .atlas-page.duet-theme p {
+    color: #f3e6ee !important;
+  }
+  .atlas-page.duet-theme .duet-date-row.gold {
+    background: #3e2614 !important;
+    border-left: 4px solid #f7d597 !important;
+  }
+  .atlas-page.duet-theme .duet-date-row.caution {
+    background: #44122a !important;
+    border-left: 4px solid #ff70a6 !important;
+  }
+  .atlas-page.duet-theme .duet-cal .gold-day {
+    background: #f7d597 !important;
+    color: #17091e !important;
+  }
+  .atlas-page.duet-theme .duet-cal .caution-day {
+    background: #d8486f !important;
+    color: #ffffff !important;
+  }
+}
