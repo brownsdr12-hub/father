@@ -386,7 +386,9 @@
           <span class="reading-block-glyph" aria-hidden="true">${getGlyph(section.role)}</span>
           <span>${escapeHtml(section.role)} · ${escapeHtml(section.sign)}</span>
         </h4>
-        ${section.blocks.map((block) => `<div class="reading-item"><b>${escapeHtml(block.label)}</b><p>${readableText(block)}</p></div>`).join('')}
+        <div class="reading-items-grid">
+          ${section.blocks.map((block) => `<div class="reading-item"><b>${escapeHtml(block.label)}</b><p>${readableText(block)}</p></div>`).join('')}
+        </div>
       </section>
     `).join('');
   }
