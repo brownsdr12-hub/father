@@ -413,6 +413,76 @@
     renderReport();
   }
 
+  function renderDuetPartnerPrompt(container) {
+    container.innerHTML = `
+      <div class="panel duet-partner-prompt-panel">
+        <div class="duet-kicker">✦ ДАННЫЕ ВАШЕГО СОЮЗА · ТАРИФ «ДУЭТ» ✦</div>
+        <h2 style="font-family:var(--display);font-size:32px;color:var(--text);margin:10px 0 8px;">Для кого рассчитываем карту пары?</h2>
+        <p class="panel-lede" style="color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:20px;">
+          У вас открыт расчет союза на 2027 год. Чтобы составить индивидуальную синастрию, определить ритмы сближения, золотые даты свиданий и дни взаимной чуткости, укажите имя и дату рождения вашего партнера.
+        </p>
+        <form id="duet-direct-partner-form" class="duet-partner-form">
+          <div class="field-row">
+            <label class="field">
+              <span>Имя партнера</span>
+              <input id="duet-input-partner-name" type="text" placeholder="Например, Алексей" required maxlength="60" value="${escapeHtml(state.partner?.name || '')}">
+            </label>
+            <label class="field">
+              <span>Дата рождения партнера</span>
+              <input id="duet-input-partner-date" type="text" inputmode="numeric" placeholder="ДД.ММ.ГГГГ" required value="${state.partner?.date ? state.partner.date.split('-').reverse().join('.') : ''}">
+            </label>
+          </div>
+          <button class="primary-button duet-primary-btn" type="submit" style="width:100%;margin-top:12px;justify-content:center;font-size:14px;padding-block:14px;">
+            <span>Рассчитать персональный Атлас союза 2027</span>
+            <span aria-hidden="true">✦</span>
+          </button>
+        </form>
+      </div>
+    `;
+
+    const dDateInput = $('duet-input-partner-date');
+    if (dDateInput) {
+      dDateInput.addEventListener('input', (e) => {
+        let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+        if (v.length >= 5) v = `${v.slice(0, 2)}.${v.slice(2, 4)}.${v.slice(4)}`;
+        else if (v.length >= 3) v = `${v.slice(0, 2)}.${v.slice(2)}`;
+        e.target.value = v;
+      });
+    }
+
+    $('duet-direct-partner-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pName = ($('duet-input-partner-name')?.value || '').trim() || 'Партнер';
+      const rawDate = ($('duet-input-partner-date')?.value || '').trim();
+      const parts = rawDate.split('.');
+      if (parts.length !== 3 || parts[2].length !== 4) {
+        notice('Укажите полную дату рождения партнера в формате ДД.ММ.ГГГГ');
+        return;
+      }
+      const pDate = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+      const userSun = state.chart?.bodies?.find((b) => b.name === 'Солнце');
+      
+      const [pY, pM, pD] = pDate.split('-').map(Number);
+      const zDays = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 22];
+      const zIdx = (pD < zDays[pM - 1]) ? (pM - 2 + 12) % 12 : pM - 1;
+      const signs = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
+      const pSign = signs[zIdx];
+      
+      const userIdx = userSun ? userSun.signIndex : 0;
+      const diff = Math.abs(userIdx - zIdx);
+      const score = [88, 79, 86, 74, 94, 69, 91][diff % 7] || 82;
+      
+      state.partner = { name: pName, date: pDate, sign: pSign, score };
+      state.editingPartner = false;
+      save();
+      renderPartner();
+      const tabDuetLabel = $('tab-duet-label');
+      if (tabDuetLabel) tabDuetLabel.textContent = `Союз: Я + ${pName}`;
+      notice(`Атлас союза для пары с ${pName} успешно рассчитан!`, true);
+      switchReportView('duet');
+    });
+  }
+
   function switchReportView(mode) {
     state.activeReportView = mode;
     save();
@@ -429,12 +499,21 @@
       if (isDuetUnlocked) {
         duetTeaser?.classList.add('hidden');
         reportContent.classList.remove('hidden');
+
+        if (!state.partner || state.editingPartner) {
+          renderDuetPartnerPrompt(reportContent);
+          return;
+        }
+
         if (state.annual && window.DuetView) {
-          const partnerData = state.partner || { name: 'Партнер', date: '1993-07-15', sign: 'Телец', score: 88 };
-          reportContent.innerHTML = window.DuetView.render(state.annual, partnerData, state.chart);
-          $('duet-export-calendar')?.addEventListener('click', () => window.DuetView.exportCalendar(state.annual, partnerData.name));
+          reportContent.innerHTML = window.DuetView.render(state.annual, state.partner, state.chart);
+          $('duet-export-calendar')?.addEventListener('click', () => window.DuetView.exportCalendar(state.annual, state.partner.name));
           $('duet-back-top')?.addEventListener('click', () => $('report-unlocked').scrollIntoView({ behavior: 'smooth' }));
           $('duet-save-pdf')?.addEventListener('click', () => window.print());
+          $('duet-change-partner-btn')?.addEventListener('click', () => {
+            state.editingPartner = true;
+            renderDuetPartnerPrompt(reportContent);
+          });
         }
       } else {
         reportContent.classList.add('hidden');
@@ -578,13 +657,24 @@
   $('tab-show-duet')?.addEventListener('click', () => switchReportView('duet'));
   $('open-duet-purchase')?.addEventListener('click', () => {
     selectTier('duet');
-    showTiers();
-    $('unlock-report').scrollIntoView({ behavior: 'smooth' });
+    if (state.unlocked) {
+      state.unlockedDuet = true;
+      state.activeReportView = 'duet';
+      showUnlockedReport();
+      switchReportView('duet');
+      $('report-unlocked').scrollIntoView({ behavior: 'smooth' });
+    } else {
+      showTiers();
+      $('unlock-report').scrollIntoView({ behavior: 'smooth' });
+    }
   });
   $('recalculate-partner-btn')?.addEventListener('click', () => {
-    selectTier('duet');
-    showTiers();
-    $('report-locked').scrollIntoView({ behavior: 'smooth' });
+    state.selectedTier = 'duet';
+    state.unlockedDuet = true;
+    state.editingPartner = true;
+    showUnlockedReport();
+    switchReportView('duet');
+    $('report-unlocked').scrollIntoView({ behavior: 'smooth' });
   });
 
   $('ask-expert').addEventListener('click', () => {

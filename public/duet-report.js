@@ -245,7 +245,15 @@
     const comboKey = `${userElement}-${partnerElement}`;
     const comboDesc = elementCombos[comboKey] || elementCombos[`${partnerElement}-${userElement}`] || 'Гармоничный союз противоположностей, взаимно обогащающий партнеров.';
 
-    let h = '';
+    let h = `
+      <div class="duet-partner-bar no-print">
+        <div class="duet-partner-info">
+          <span class="heart-icon">♡</span>
+          <span>Атлас союза: <strong>${esc(userName)} + ${esc(partnerName)}</strong> (${esc(partnerSign)}, ${dateRu(partnerDate)}) · Резонанс <strong>${score}%</strong></span>
+        </div>
+        <button id="duet-change-partner-btn" class="duet-change-partner-btn" type="button">✎ Изменить партнера</button>
+      </div>
+    `;
 
     // PAGE 1: Romantic Cover
     h += page(1, 'cover duet-cover', `

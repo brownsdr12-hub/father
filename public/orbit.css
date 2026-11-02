@@ -39,7 +39,25 @@
 @media(max-width:370px){.app-shell{padding-inline:15px}.orbit-illustration{transform:scale(.9);margin-inline:auto}.panel{padding:21px 17px}.star-card{padding:12px 5px}.star-card strong{font-size:22px}.choice-grid button{font-size:10px}}
 @media(min-width:680px){.app-shell{box-shadow:0 0 140px rgba(0,0,0,.45)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-@media print{body{background:#fff;color:#18253a}.sky,.app-header,.bottom-nav,.hero,.view-intro,.report-toolbar,.expert-panel,.report-offer,.status,.report-view-switcher,#duet-teaser-panel{display:none!important}.app-shell{width:100%;padding:0;border:0;box-shadow:none;background:#fff}.view{display:none!important}#view-report{display:block!important}#report-unlocked{display:block!important}#report-content{display:block}.report-card,.atlas-page{background:#fff!important;color:#18253a!important;break-inside:avoid;border:1px solid #d4dce5!important}.atlas-page.duet-theme{background:#fff!important;color:#18253a!important}.duet-cover h1{color:#18253a!important}.duet-cover-sub{color:#553048!important}.duet-meta-badge,.duet-features-grid div,.elem-card,.duet-manifesto-box,.duet-node-item{background:#fdf9fb!important;border-color:#e2cbd8!important;color:#18253a!important}.duet-manifesto-box strong,.elem-card strong{color:#553048!important}.duet-date-row.gold{background:#fffbf2!important;border-left-color:#c59d5b!important}.duet-date-row.caution{background:#fff5f7!important;border-left-color:#d45b78!important}.duet-date-row strong{color:#18253a!important}.duet-cal .gold-day{background:#fcebed!important;color:#851a3b!important}.report-card p,.report-section>p{color:#34485e}details:not([open])>*:not(summary){display:block!important}details summary:after{display:none!important}}
+@media print{
+  body{background:#fff!important;color:#18253a}
+  .sky,.app-header,.bottom-nav,.hero,.view-intro,.report-toolbar,.expert-panel,.report-offer,.status,.report-view-switcher,#duet-teaser-panel,.duet-partner-bar,.duet-partner-prompt-panel,.atlas-end-actions,.no-print{display:none!important}
+  .app-shell{width:100%!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important}
+  .view{display:none!important}
+  #view-report{display:block!important}
+  #report-unlocked{display:block!important}
+  #report-content{display:block!important}
+  .atlas-page{background:#fffcf6!important;color:#172b3a!important;break-inside:avoid!important;break-after:page!important;border:0!important;box-shadow:none!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .atlas-page.cover{background:#0d1a2e!important;color:#f9f2e6!important}
+  .atlas-page.duet-theme{background:#fff8fa!important;color:#321427!important;border:0!important;box-shadow:none!important}
+  .atlas-page.duet-theme.cover{background:linear-gradient(165deg,#2b0b26 0%,#3a1133 50%,#20061c 100%)!important;color:#fceef3!important}
+  .duet-date-row.gold{background:#fffcf2!important;border-left:3.5px solid #c99335!important}
+  .duet-date-row.caution{background:#fff2f5!important;border-left:3.5px solid #d8486f!important}
+  .duet-cal .gold-day{background:#fff2d4!important;border:1.5px solid #c99335!important;color:#684800!important}
+  .duet-cal .caution-day{background:#ffebee!important;border:1.5px solid #d8486f!important;color:#8c1032!important}
+  details:not([open])>*:not(summary){display:block!important}
+  details summary:after{display:none!important}
+}
 
 /* The free reading follows the four actual interpretive roles, not a text wall. */
 .reading-block h4{
@@ -361,58 +379,104 @@
   font-size: 14px;
 }
 
-/* Duet Theme: Romantic Velvet Plum & Rose Gold */
+/* Duet Theme: Romantic Blush Silk & Royal Velvet Burgundy (Luxe Editorial) */
 .atlas-page.duet-theme {
-  background: linear-gradient(170deg, #1b0c24 0%, #291032 50%, #15091d 100%) !important;
-  border-color: rgba(248, 169, 164, 0.28) !important;
-  color: #f7eef7 !important;
-  box-shadow: 0 10px 40px rgba(35, 11, 45, 0.4) !important;
+  background: #fff8fa !important;
+  color: #321427 !important;
+  border: 1px solid #ebd3dc !important;
+  box-shadow: 0 12px 35px rgba(50, 16, 38, 0.08) !important;
+}
+.atlas-page.duet-theme:before {
+  border: 1px solid #f2dbe3 !important;
+}
+.atlas-page.duet-theme h1,
+.atlas-page.duet-theme h2,
+.atlas-page.duet-theme h3 {
+  font-family: 'Cormorant', Georgia, serif !important;
+  color: #4a102e !important;
+}
+.atlas-page.duet-theme h2 {
+  font-size: 43px;
+  line-height: 1.05;
+  margin: 9px 0 13px;
+  color: #4a102e !important;
+}
+.atlas-page.duet-theme p {
+  color: #341829 !important;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.atlas-page.duet-theme .atlas-lead {
+  color: #56153b !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  font-weight: 500;
+}
+.atlas-page.duet-theme .atlas-num {
+  color: #946981 !important;
 }
 .duet-kicker {
-  color: #ff8fab !important;
+  color: #9c2e58 !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
   letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
 }
 .duet-rule {
-  background: linear-gradient(90deg, #f8a9a4, #f7d597, transparent) !important;
+  background: linear-gradient(90deg, #d87b9b, #e5b97d, transparent) !important;
+  height: 2px !important;
+  width: 48px !important;
+  margin: 0 0 16px !important;
 }
 .duet-pill {
-  background: rgba(255, 112, 166, 0.15) !important;
-  border: 1px solid rgba(255, 112, 166, 0.4) !important;
-  color: #ffd6df !important;
+  background: #fde8ee !important;
+  border: 1px solid #f2b3c4 !important;
+  color: #8c1e45 !important;
+  font-weight: 700 !important;
+  border-radius: 30px !important;
+  padding: 6px 12px !important;
+  font-size: 9.5px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  display: inline-block !important;
+  margin-bottom: 12px !important;
 }
-.duet-cover h1 {
+
+/* Cover Page ONLY: Dramatic Velvet Night Wine */
+.atlas-page.duet-theme.cover {
+  background: linear-gradient(165deg, #2b0b26 0%, #3a1133 50%, #20061c 100%) !important;
+  color: #fceef3 !important;
+  border: 1px solid #753b5e !important;
+  box-shadow: 0 18px 50px rgba(35, 8, 30, 0.45) !important;
+}
+.atlas-page.duet-theme.cover:before {
+  border: 1px solid #5a2646 !important;
+}
+.atlas-page.duet-theme.cover h1 {
   color: #ffffff !important;
+  font-size: clamp(48px, 11vw, 68px) !important;
 }
-.duet-cover h1 em {
-  color: #ff8fab !important;
+.atlas-page.duet-theme.cover h1 em {
+  color: #ff9ebb !important;
   font-style: italic !important;
 }
-.duet-cover-sub {
+.atlas-page.duet-theme.cover .duet-cover-sub {
   color: #fcd5ce !important;
   font-size: 14px !important;
-  margin-top: 4px !important;
 }
-.duet-orbit-svg {
-  width: 100%;
-  max-width: 440px;
-  height: auto;
-  margin: 10px auto;
+.atlas-page.duet-theme.cover .duet-kicker {
+  color: #ff8fab !important;
+}
+.atlas-page.duet-theme.cover .duet-bottom-brand {
+  color: #e5b38b !important;
+  font-size: 9px !important;
+  letter-spacing: 0.16em !important;
   display: block;
-}
-.orbit-rotate-cw {
-  transform-origin: 180px 120px;
-  animation: spin 60s linear infinite;
-}
-.orbit-rotate-ccw {
-  transform-origin: 320px 120px;
-  animation: spin-reverse 50s linear infinite;
-}
-.duet-cover-details {
-  margin: 18px 0;
+  margin-top: 18px;
 }
 .duet-meta-badge {
-  background: rgba(43, 17, 52, 0.6);
-  border: 1px solid rgba(248, 169, 164, 0.3);
+  background: rgba(56, 19, 64, 0.8) !important;
+  border: 1px solid rgba(247, 213, 151, 0.4) !important;
   border-radius: 12px;
   padding: 10px 14px;
   margin-bottom: 12px;
@@ -421,11 +485,11 @@
 .duet-meta-badge b {
   display: block;
   font-size: 13px;
-  color: #f7d597;
+  color: #f7d597 !important;
 }
 .duet-meta-badge span {
   font-size: 11px;
-  color: #fcd5ce;
+  color: #fcd5ce !important;
 }
 .duet-features-grid {
   display: grid;
@@ -433,23 +497,41 @@
   gap: 10px;
 }
 .duet-features-grid div {
-  background: rgba(30, 13, 38, 0.7);
-  border: 1px solid rgba(248, 169, 164, 0.18);
+  background: rgba(43, 16, 50, 0.75) !important;
+  border: 1px solid rgba(248, 169, 164, 0.3) !important;
   border-radius: 10px;
   padding: 10px;
 }
 .duet-features-grid b {
   display: block;
   font-size: 11.5px;
-  color: #f8a9a4;
+  color: #f8a9a4 !important;
   margin-bottom: 3px;
 }
 .duet-features-grid span {
   font-size: 10.5px;
-  color: #ded0de;
+  color: #ecdfe9 !important;
   line-height: 1.35;
   display: block;
 }
+
+/* Section Blocks & Elements on Inside Pages */
+.duet-section-block {
+  margin: 16px 0 14px;
+}
+.duet-section-block b {
+  display: block;
+  font-size: 13px;
+  color: #521334;
+  margin-bottom: 5px;
+  letter-spacing: 0.02em;
+}
+.duet-section-block p {
+  color: #341829 !important;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
 .duet-elements-box {
   display: flex;
   align-items: center;
@@ -459,8 +541,8 @@
 }
 .elem-card {
   flex: 1;
-  background: rgba(36, 14, 46, 0.8);
-  border: 1px solid rgba(248, 169, 164, 0.25);
+  background: #fff0f5 !important;
+  border: 1px solid #f0cbd7 !important;
   border-radius: 14px;
   padding: 14px 12px;
   text-align: center;
@@ -469,211 +551,373 @@
   display: block;
   font-size: 9px;
   letter-spacing: 0.14em;
-  color: #fcd5ce;
+  color: #8c3b65 !important;
+  font-weight: 700;
   margin-bottom: 4px;
 }
 .elem-card strong {
   display: block;
-  font-size: 17px;
+  font-size: 18px;
   font-family: var(--display);
-  color: #f7d597;
+  color: #541235 !important;
 }
 .elem-card span {
-  font-size: 10px;
-  color: #c9b8cc;
+  font-size: 10.5px;
+  color: #6a3452 !important;
 }
 .elem-heart {
   font-size: 26px;
-  color: #ff70a6;
-  text-shadow: 0 0 15px rgba(255, 112, 166, 0.6);
+  color: #d8486f;
   flex-shrink: 0;
-  animation: pulse-glow 2.5s infinite alternate;
 }
 .duet-combo-callout {
-  background: rgba(46, 17, 54, 0.65);
-  border-left: 3px solid #ff70a6;
-  border-radius: 8px;
+  background: #fdf0f4 !important;
+  border-left: 3px solid #d8486f !important;
+  border-radius: 0 10px 10px 0;
   padding: 12px 14px;
   margin: 14px 0 18px;
 }
 .duet-combo-callout b {
   display: block;
-  font-size: 12.5px;
-  color: #f7d597;
+  font-size: 13px;
+  color: #5b1339 !important;
   margin-bottom: 4px;
 }
 .duet-combo-callout p {
   margin: 0;
   font-size: 12px;
-  color: #e6d8e8;
+  color: #341829 !important;
   line-height: 1.5;
 }
+
+/* Planets Table */
 .duet-planets-table {
-  border: 1px solid rgba(248, 169, 164, 0.2);
+  border: 1px solid #ebd3dc !important;
   border-radius: 12px;
   overflow: hidden;
   margin: 14px 0;
+  background: #ffffff;
 }
 .duet-table-row {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
   padding: 9px 12px;
   font-size: 11.5px;
-  border-bottom: 1px solid rgba(248, 169, 164, 0.12);
+  border-bottom: 1px solid #f2dfe6;
   align-items: center;
+  color: #341829;
 }
 .duet-table-row:last-child {
   border-bottom: 0;
 }
 .duet-table-row.head {
-  background: rgba(43, 17, 52, 0.85);
+  background: #fdeaf0 !important;
   font-weight: 700;
   font-size: 10.5px;
-  color: #fcd5ce;
+  color: #641a3f !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 .duet-table-row b {
-  color: #ffffff;
+  color: #4a102e;
 }
-.tag-good { color: #7ce1db; font-weight: 600; font-size: 10px; }
-.tag-warm { color: #f7d597; font-weight: 600; font-size: 10px; }
-.tag-spark { color: #ff8fab; font-weight: 600; font-size: 10px; }
-.duet-nodes-grid {
-  display: grid;
-  gap: 12px;
-  margin: 16px 0;
-}
-.duet-node-item {
-  background: rgba(35, 14, 44, 0.7);
-  border: 1px solid rgba(248, 169, 164, 0.2);
-  border-radius: 14px;
-  padding: 14px;
-}
-.node-icon {
-  font-size: 20px;
-  color: #f7d597;
-  margin-bottom: 4px;
-}
-.duet-node-item h4 {
-  margin: 0 0 6px;
-  font-size: 15px;
-  color: #f8a9a4;
-}
-.duet-node-item p {
-  margin: 0;
-  font-size: 12.5px;
-  color: #ded0de;
-  line-height: 1.55;
-}
+.tag-good { color: #1c7a6e; font-weight: 700; font-size: 10px; }
+.tag-warm { color: #a66a00; font-weight: 700; font-size: 10px; }
+.tag-spark { color: #b82352; font-weight: 700; font-size: 10px; }
+
+/* Gold & Caution Date Cards (Ultra-crisp & high contrast) */
 .duet-dates-box {
   display: grid;
-  gap: 10px;
-  margin: 15px 0;
+  gap: 11px;
+  margin: 16px 0;
 }
 .duet-date-row {
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  padding: 12px 14px;
+  padding: 13px 15px;
   border-radius: 12px;
 }
 .duet-date-row.gold {
-  background: rgba(247, 213, 151, 0.09);
-  border-left: 3px solid #f7d597;
+  background: #fffcf2 !important;
+  border: 1px solid #f6e6c4 !important;
+  border-left: 3.5px solid #c99335 !important;
 }
 .duet-date-row.caution {
-  background: rgba(255, 112, 166, 0.09);
-  border-left: 3px solid #ff70a6;
+  background: #fff2f5 !important;
+  border: 1px solid #f9cad7 !important;
+  border-left: 3.5px solid #d8486f !important;
 }
 .date-badge {
   font-size: 11px;
-  font-weight: 700;
-  padding: 4px 8px;
+  font-weight: 800;
+  padding: 4px 9px;
   border-radius: 8px;
-  background: rgba(247, 213, 151, 0.2);
-  color: #f7d597;
+  background: #fff3d4 !important;
+  border: 1px solid #c99335 !important;
+  color: #704c00 !important;
   white-space: nowrap;
 }
 .date-badge.warn {
-  background: rgba(255, 112, 166, 0.2);
-  color: #ff8fab;
+  background: #ffe3ea !important;
+  border: 1px solid #d8486f !important;
+  color: #8c1233 !important;
 }
 .duet-date-row strong {
   display: block;
-  font-size: 13px;
-  color: #ffffff;
-  margin-bottom: 3px;
+  font-size: 13.5px;
+  color: #291404 !important;
+  margin-bottom: 4px;
+}
+.duet-date-row.caution strong {
+  color: #360714 !important;
 }
 .duet-date-row p {
   margin: 0;
   font-size: 12px;
-  color: #d8c8d8;
-  line-height: 1.45;
+  color: #3d2c18 !important;
+  line-height: 1.5;
 }
-.duet-cal .gold-day {
-  background: linear-gradient(135deg, rgba(247, 213, 151, 0.35), rgba(255, 112, 166, 0.35)) !important;
-  border: 1px solid #f7d597 !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
+.duet-date-row.caution p {
+  color: #451b2a !important;
 }
-.duet-cal .caution-day {
-  background: rgba(255, 112, 166, 0.2) !important;
-  border: 1px solid #ff70a6 !important;
-  color: #ffccd8 !important;
-}
-.atlas-legend i.gold { background: #f7d597; border-radius: 50%; }
-.atlas-legend i.warn { background: #ff70a6; border-radius: 50%; }
+
+/* Practice Callout & Quotes */
 .duet-practice-callout {
-  border-color: rgba(248, 169, 164, 0.35) !important;
-  background: rgba(46, 17, 54, 0.6) !important;
+  border: 1px solid #edd3e6 !important;
+  background: #faf2f8 !important;
+  border-radius: 12px;
+  padding: 13px 15px;
+  margin: 14px 0;
+}
+.duet-practice-callout b {
+  display: block;
+  font-size: 12.5px;
+  color: #6a1851 !important;
+  margin-bottom: 4px;
+}
+.duet-practice-callout p {
+  margin: 0;
+  font-size: 12px;
+  color: #341829 !important;
+  line-height: 1.5;
 }
 .duet-quote {
-  border-left-color: #ff8fab !important;
-  color: #fcd5ce !important;
-  font-style: italic;
+  border-left: 3px solid #d87b9b !important;
+  background: rgba(253, 235, 241, 0.55) !important;
+  color: #521539 !important;
+  font: italic 21px/1.25 'Cormorant', Georgia, serif !important;
+  padding: 10px 14px !important;
+  margin: 16px 0 !important;
+  border-radius: 0 10px 10px 0;
+}
+
+/* Calendar: Crisp, High-Contrast Grid */
+.duet-cal {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 12px 0 6px;
+}
+.duet-cal .head {
+  border: 0 !important;
+  color: #7a3558 !important;
+  font-weight: 700 !important;
+  font-size: 10px !important;
+  text-align: center;
+  padding: 3px 0;
+}
+.duet-cal .empty {
+  border: 0 !important;
+  background: transparent !important;
+}
+.duet-cal span:not(.head):not(.empty) {
+  background: #ffffff;
+  border: 1px solid #ebdbe2;
+  border-radius: 6px;
+  color: #2e1424;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.duet-cal .gold-day {
+  background: #fff2d4 !important;
+  border: 1.5px solid #c99335 !important;
+  color: #684800 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 6px rgba(201, 147, 53, 0.25);
+}
+.duet-cal .caution-day {
+  background: #ffebee !important;
+  border: 1.5px solid #d8486f !important;
+  color: #8c1032 !important;
+  font-weight: 800 !important;
+}
+.duet-cal .phase {
+  background: #f7eef3 !important;
+  border-color: #dfcbd4 !important;
+  color: #5a2c47 !important;
+}
+.atlas-legend i.gold { background: #c99335; border-radius: 50%; }
+.atlas-legend i.warn { background: #d8486f; border-radius: 50%; }
+
+/* Method, Contact & Manifesto */
+.duet-method > div {
+  border-top: 1px solid #edd5df !important;
+  padding-top: 12px;
+}
+.duet-method b {
+  font-size: 13px;
+  color: #521539 !important;
+}
+.duet-method p {
+  margin: 6px 0;
+  color: #341829 !important;
+}
+.duet-contact {
+  background: #fbf0f5 !important;
+  border: 1px solid #ecd3df !important;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.duet-contact h3 {
+  font-size: 18px;
+  color: #541235 !important;
+  margin: 0 0 6px;
+}
+.duet-contact p {
+  margin: 0;
+  color: #341829 !important;
+  font-size: 12.5px;
+}
+.duet-export {
+  background: #fff8f2 !important;
+  border: 1px solid #fae6cb !important;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.duet-export h3 {
+  font-size: 18px;
+  color: #633f0b !important;
+  margin: 0 0 6px;
+}
+.duet-export p {
+  margin: 0 0 10px;
+  color: #423018 !important;
+  font-size: 12px;
 }
 .duet-primary-btn {
-  background: linear-gradient(105deg, #f8a9a4, #f7d597) !important;
-  color: #200d2b !important;
+  background: linear-gradient(105deg, #c99335, #e0a948) !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
   border: 0 !important;
-  padding: 12px 20px !important;
-  border-radius: 12px !important;
+  padding: 11px 18px !important;
+  border-radius: 10px !important;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(201, 147, 53, 0.25);
 }
 .duet-manifesto-box {
-  background: rgba(35, 14, 44, 0.75);
-  border: 1px solid rgba(248, 169, 164, 0.28);
+  background: #fff3f6 !important;
+  border: 1px solid #f2cad6 !important;
   border-radius: 16px;
-  padding: 18px;
+  padding: 18px 20px;
   margin: 18px 0;
 }
 .duet-manifesto-box h3 {
-  font-size: 18px;
-  color: #f7d597;
-  margin: 0 0 12px;
+  font-size: 19px !important;
+  color: #4a102e !important;
+  margin: 0 0 12px !important;
 }
 .duet-manifesto-box ol {
-  padding-left: 18px;
-  margin: 0 0 16px;
+  margin: 0;
+  padding-left: 20px;
+  color: #341829;
 }
 .duet-manifesto-box li {
-  font-size: 13px;
-  color: #ded0de;
-  line-height: 1.6;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #341829 !important;
 }
-.duet-manifesto-box strong {
-  color: #ffffff;
+.duet-manifesto-box li strong {
+  color: #541235 !important;
 }
 .duet-manifesto-box blockquote {
-  border-left: 2px solid #f8a9a4;
+  font: italic 18px/1.3 'Cormorant', Georgia, serif;
+  color: #6a1a45;
+  border-left: 2px solid #d87b9b;
   padding-left: 12px;
-  font-style: italic;
-  font-size: 13px;
-  color: #fcd5ce;
-  margin: 12px 0 0;
+  margin: 16px 0 0;
+}
+
+.atlas-page.duet-theme .atlas-end-actions button {
+  border: 1px solid #dca7b6 !important;
+  background: #fff2f6 !important;
+  color: #58163c !important;
+}
+.atlas-page.duet-theme .atlas-end-actions button:last-child {
+  background: #5a1438 !important;
+  color: #ffffff !important;
+  border-color: #5a1438 !important;
+}
+
+/* Partner Bar at top of report */
+.duet-partner-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(74, 23, 62, 0.95), rgba(46, 14, 42, 0.98));
+  border: 1px solid rgba(248, 169, 164, 0.4);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+.duet-partner-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #fde8ee;
+}
+.duet-partner-info .heart-icon {
+  color: #ff70a6;
+  font-size: 15px;
+}
+.duet-partner-info strong {
+  color: #ffffff;
+}
+.duet-change-partner-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(248, 169, 164, 0.4);
+  color: #ffd6df;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.duet-change-partner-btn:hover {
+  background: rgba(255, 112, 166, 0.25);
+  color: #ffffff;
+}
+
+/* Partner Prompt Modal/Card (when partner is not yet set) */
+.duet-partner-prompt-panel {
+  background: linear-gradient(145deg, rgba(38, 13, 38, 0.95), rgba(24, 8, 26, 0.98)) !important;
+  border: 1px solid rgba(248, 169, 164, 0.35) !important;
+  border-radius: 22px;
+  padding: 28px 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  animation: arrive 0.4s ease;
 }
 
 
