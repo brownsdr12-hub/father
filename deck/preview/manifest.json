@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "backend": "native",
+  "rasterEngine": "libreoffice",
+  "source": "saved",
+  "inputPath": "/Users/user/Documents/tvoy-krug/deck/Свой круг — почему теряем деньги.pptx",
+  "sourceSha256": "c0c0e44ef7652b496c5831d7f56cf9379f928bdbd4ae3ffde691e465ad49cf83",
+  "dpi": 144,
+  "pageCount": 12,
+  "images": [
+    {
+      "index": 1,
+      "page": 1,
+      "path": "/Users/user/Documents/tvoy-krug/deck/preview/page-0001.png",
+      "width": 1920,
+      "height": 1081,
+      "rectangle": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720.0666666666667
+      },
+      "byteLength": 10544
+    },
+    {
+      "index": 2,
+      "page": 2,
+      "path": "/Users/user/Documents/tvoy-krug/deck/preview/page-0002.png",
+      "width": 1920,
+      "height": 1081,
+      "rectangle": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720.0666666666667
+      },
+      "byteLength": 10544
+    },
+    {
+      "index": 3,
+      "page": 3,
+      "path": "/Users/user/Documents/tvoy-krug/deck/preview/page-0003.png",
+      "width": 1920,
+      "height": 1081,
+      "rectangle": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720.0666666666667
+      },
+      "byteLength": 10544
+    },
+    {
+      "index": 4,
+      "page": 4,
+      "path": "/Users/user/Documents/tvoy-krug/deck/preview/page-0004.png",
+      "width": 1920,
+      "height": 1081,
+      "rectangle": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720.0666666666667
+      },
+      "byteLength": 10544
+    },
+    {
+      "index": 5,
+      "page": 5,
+      "path": "/Users/user/Documents/tvoy-krug/deck/preview/page-0005.png",
+      "width": 1920,
+      "height": 1081,
+      "rectangle": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720.0666666666667
+      },
+      "byteLength": 10544
+    },
+    {
+      "index": 6,
+      "page": 6,
+      "path": "/Users/user/Documents/tvoy-krug/deck/preview/page-0006.png",
+      "width": 1920,
+      "height": 1081,
+      "rectangle": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720.0666666666667
+      },
+      "byteLength": 10544
+    }
+  ],
+  "missingFonts": []
+}

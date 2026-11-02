@@ -1,0 +1,17 @@
+# Секреты — никогда в git
+.env
+.env*
+*.key
+*.pem
+
+# Зависимости
+node_modules/
+
+# Данные и логи
+data/*.db
+data/*.sqlite
+*.log
+.DS_Store
+tmp/
+.playwright-cli/
+output/

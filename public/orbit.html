@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080f24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Свой круг">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23080f24'/%3E%3Ctext x='32' y='46' font-size='42' text-anchor='middle' fill='%23dcc987'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="/app-icon.png">
+  <title>Свой круг — карта и 12 глав</title>
+  <link rel="stylesheet" href="/fonts.css">
+  <link rel="stylesheet" href="/orbit.css">
+  <link rel="stylesheet" href="/annual-report.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><div class="meteor meteor-a"></div><div class="meteor meteor-b"></div></div>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand-mark" aria-hidden="true"><span></span></div>
+      <div class="brand-copy"><strong>Свой круг</strong><small>Личная карта неба</small></div>
+      <span class="demo-chip">ДЕМО</span>
+    </header>
+    <div id="status" class="status hidden" role="status" aria-live="polite"></div>
+
+    <main id="view-chart" class="view active">
+      <div class="hero">
+        <div class="eyebrow">Путешествие начинается здесь <span>✦</span></div>
+        <div class="orbit-illustration" aria-hidden="true">
+          <div class="orbit-glow"></div><div class="orbit orbit-outer"><i class="orbit-point point-one"></i></div>
+          <div class="orbit orbit-mid"><i class="orbit-point point-two"></i></div>
+          <div class="orbit orbit-inner"><i class="orbit-point point-three"></i></div>
+          <div class="orbit-core"><span>✦</span></div>
+          <div class="orbit-label label-top">ЛУНА</div><div class="orbit-label label-bottom">СОЛНЦЕ</div>
+        </div>
+        <h1>У каждого неба<br><em>свой рисунок</em></h1>
+        <p>Начните с Солнца и Луны. Если знаете время рождения, откроется и третья опора — Асцендент.</p>
+      </div>
+      <section id="chart-form-panel" class="panel form-panel">
+        <div class="panel-kicker"><span class="tiny-star">✦</span> НАЧАЛО МАРШРУТА</div>
+        <h2>Построим вашу карту</h2>
+        <p class="panel-lede">Нужны дата и место рождения. Без точного времени Асцендент не определяем.</p>
+        <form id="birth-form" novalidate>
+          <label class="field"><span>Ваше имя</span><input id="name" type="text" placeholder="Как к вам обращаться" maxlength="80" autocomplete="given-name"></label>
+          <div class="field-row">
+            <label class="field"><span>Дата рождения</span><input id="date" type="text" inputmode="numeric" placeholder="ДД.ММ.ГГГГ" autocomplete="bday" required></label>
+            <label class="field"><span>Время <b>необязательно</b></span><input id="time" type="time"></label>
+          </div>
+          <label class="field city-field"><span>Город рождения</span><input id="city" type="text" placeholder="Например, Череповец" autocomplete="off" required><span id="city-suggest" class="suggest hidden"></span></label>
+          <div id="manual-coordinates" class="manual-coordinates hidden">
+            <p>Не нашли город? Укажите широту, долготу и смещение от UTC на дату рождения.</p>
+            <div class="field-row">
+              <label class="field"><span>Широта</span><input id="latitude" inputmode="decimal" placeholder="59.13"></label>
+              <label class="field"><span>Долгота</span><input id="longitude" inputmode="decimal" placeholder="37.91"></label>
+            </div>
+            <label class="field"><span>Часовой пояс UTC на дату рождения</span><input id="timezone" inputmode="decimal" placeholder="Например, +3"></label>
+          </div>
+          <button class="primary-button" type="submit"><span>Открыть мою карту</span><span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="microcopy">Это демонстрационный расчёт. Данные рождения сохраняются на этом устройстве для повторного открытия.</p>
+      </section>
+      <section id="chart-result" class="hidden">
+        <div class="section-heading"><div><div class="panel-kicker">ВАША КАРТА</div><h2 id="result-greeting">Ваши три звезды</h2></div><button id="edit-birth" class="text-button" type="button">Изменить</button></div>
+        <p id="birth-meta" class="section-subtitle"></p>
+        <div class="star-trio" id="star-trio"></div>
+        <div id="accuracy-note" class="note hidden"></div>
+        <div class="panel free-reading">
+          <div class="panel-kicker">БЕСПЛАТНЫЙ РАЗБОР</div>
+          <h3 id="free-heading">Ключ к вашим отношениям и внутренней силе</h3>
+          <div id="free-reading-content" class="reading-content">
+            <div class="reading-loader-container" id="reading-loader">
+              <div class="reading-loader-header">
+                <div class="reading-radar" aria-hidden="true">
+                  <div class="radar-ring radar-ring-1"></div>
+                  <div class="radar-ring radar-ring-2"></div>
+                  <div class="radar-core">✦</div>
+                </div>
+                <div class="reading-loader-info">
+                  <div class="loader-status-top">
+                    <span class="loader-badge">РАСЧЕТ В ПРОЦЕССЕ</span>
+                    <span class="loader-pct" id="loader-progress-pct">24%</span>
+                  </div>
+                  <div class="status-stage-label" id="loader-stage-text">Синхронизируем градусы планет и Асцендента...</div>
+                  <div class="status-stage-bar">
+                    <div class="stage-fill" id="loader-progress-fill" style="width: 24%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="reading-skeletons">
+                <div class="reading-skeleton-card">
+                  <div class="sk-header">
+                    <span class="sk-glyph">☉</span>
+                    <div class="sk-line sk-title"></div>
+                  </div>
+                  <div class="sk-line sk-badge"></div>
+                  <div class="sk-line sk-text"></div>
+                  <div class="sk-line sk-text sk-short"></div>
+                </div>
+                <div class="reading-skeleton-card">
+                  <div class="sk-header">
+                    <span class="sk-glyph">☽</span>
+                    <div class="sk-line sk-title"></div>
+                  </div>
+                  <div class="sk-line sk-badge"></div>
+                  <div class="sk-line sk-text"></div>
+                  <div class="sk-line sk-text sk-short"></div>
+                </div>
+                <div class="reading-skeleton-card">
+                  <div class="sk-header">
+                    <span class="sk-glyph">✧</span>
+                    <div class="sk-line sk-title"></div>
+                  </div>
+                  <div class="sk-line sk-badge"></div>
+                  <div class="sk-line sk-text"></div>
+                  <div class="sk-line sk-text sk-short"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel synastry-hook-panel">
+          <div class="panel-kicker">♡ СОВМЕСТИМОСТЬ СОЮЗА</div>
+          <h3>А что между вами?</h3>
+          <p class="panel-lede">Узнайте, как ваша карта взаимодействует с его планетами: почему возникает притяжение и где скрыты подводные камни.</p>
+          <form id="partner-form">
+            <div class="field-row">
+              <label class="field"><span>Его имя</span><input id="partner-name" type="text" placeholder="Например, Алексей" maxlength="60"></label>
+              <label class="field"><span>Дата рождения</span><input id="partner-date" type="text" inputmode="numeric" placeholder="ДД.ММ.ГГГГ" required></label>
+            </div>
+            <button class="secondary-button partner-button" type="submit">
+              <span>Рассчитать совместимость пары</span>
+              <span aria-hidden="true">✦</span>
+            </button>
+          </form>
+          <div id="synastry-result" class="synastry-result hidden">
+            <div class="synastry-score-box">
+              <div class="score-circle"><span id="synastry-percent">82%</span><small>связь</small></div>
+              <div class="score-info">
+                <h4 id="synastry-title">Сильное взаимное притяжение</h4>
+                <p id="synastry-teaser">Ваши планеты чувств образуют гармоничный аспект: интуитивное принятие и быстрый контакт, но Луна требует бережности к личным границам.</p>
+              </div>
+            </div>
+            <div class="synastry-unlock-callout">
+              <p>Полный анализ союза (точки страсти, кармический вектор и прогноз пары на 2027) включен в тариф <strong>«Дуэт»</strong>.</p>
+              <button id="go-to-duet" class="primary-button" type="button">
+                <span>Открыть полный разбор пары в тарифе «Дуэт»</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button id="open-year" class="primary-button year-button" type="button"><span>Открыть персональный план 2027</span><span aria-hidden="true">→</span></button>
+        <button id="delete-data" class="text-button" type="button">Удалить мои данные на этом устройстве</button>
+      </section>
+    </main>
+
+    <main id="view-day" class="view" hidden>
+      <div class="view-intro"><div class="panel-kicker">ВАШ ЕЖЕДНЕВНЫЙ РИТУАЛ</div><h1>Одна звезда<br><em>на сегодня</em></h1><p>Выберите, чему хотите уделить внимание. Каждый день — новый маленький шаг.</p></div>
+      <div class="panel day-panel"><div class="day-top"><span id="today-label"></span><span id="streak-label" class="streak-pill">✦ 0 / 3 дня</span></div><div class="day-visual" aria-hidden="true"><span class="day-star star-a">✦</span><span class="day-star star-b">✧</span><span class="day-star star-c">✦</span><span class="day-star star-d">✧</span><span class="day-star star-e">✦</span><span class="day-star star-f">✧</span><span class="day-star star-g">✦</span></div><h2>Что откроем сегодня?</h2><p class="section-subtitle">Ваш выбор останется на этот день.</p><div class="choice-grid" id="day-choices"><button type="button" data-theme="love"><span>♡</span> Отношения</button><button type="button" data-theme="work"><span>✧</span> Дело</button><button type="button" data-theme="energy"><span>☼</span> Ресурс</button></div><div id="day-reveal" class="day-reveal hidden"></div></div>
+      <div class="panel journey-panel"><div class="panel-kicker">МАЛЕНЬКИЙ МАРШРУТ</div><h3>Три дня — три взгляда</h3><div id="journey-dots" class="journey-dots"><i></i><i></i><i></i></div><p id="journey-copy">Открывайте по одной карточке в день. После третьей появится дополнительный вопрос к вашей карте.</p></div>
+      <p class="microcopy">Ежедневные карточки — игровые темы для размышления, а не расчёт текущих транзитов.</p>
+    </main>
+
+    <main id="view-gift" class="view" hidden>
+      <div class="view-intro"><div class="panel-kicker">ОТНОШЕНИЯ И СОЮЗЫ</div><h1>Анализ<br><em>совместимости</em></h1><p>Узнайте, как переплетаются ваши орбиты: точки гармонии, страсти и эмоциональные циклы пары.</p></div>
+      <div class="panel gift-panel">
+        <div class="gift-orb" aria-hidden="true"><span>♡</span></div>
+        <h2>Проверить связь с партнером</h2>
+        <p>Введите данные близкого человека. Мы рассчитаем синастрию ваших планет без запроса доступа к его профилю.</p>
+        <button id="share-app" class="primary-button" type="button"><span>Поделиться с партнером</span><span aria-hidden="true">↗</span></button>
+        <p id="share-status" class="microcopy"></p>
+      </div>
+      <div class="panel birthday-panel">
+        <div class="panel-kicker">КАРТА БЛИЗКОГО</div>
+        <h3>Сохранить важную дату</h3>
+        <p>Сохраните дату партнера или подруги, чтобы не пропустить важные планетарные циклы.</p>
+        <div class="field-row">
+          <label class="field"><span>Имя</span><input id="friend-name" placeholder="Соня"></label>
+          <label class="field"><span>День и месяц</span><input id="friend-date" placeholder="18.11" inputmode="numeric"></label>
+        </div>
+        <button id="save-friend" class="secondary-button" type="button">Сохранить дату на этом устройстве</button>
+        <div id="friend-preview" class="friend-preview hidden"></div>
+      </div>
+    </main>
+
+    <main id="view-report" class="view" hidden>
+      <div class="view-intro"><div class="panel-kicker">ПЕРСОНАЛЬНЫЙ НАВИГАТОР 2027</div><h1>Карта года:<br><em>Отношения, Дело и Ритмы</em></h1><p>Индивидуальный цифровой отчет по вашим данным рождения: 12 глав года, расчет ключевых периодов в союзах, карьере и личном ресурсе.</p></div>
+      <div id="report-locked" class="panel report-offer">
+        <div id="return-to-report-row" class="return-to-report-row hidden">
+          <button id="return-to-report-btn" class="secondary-button" type="button">
+            <span>← Вернуться к открытому навигатору 2027</span>
+          </button>
+        </div>
+        <div class="offer-orbit" aria-hidden="true">✦</div>
+        <span class="offer-badge">ВЫБЕРИТЕ ФОРМАТ РАЗБОРА</span>
+        <h2>Персональный навигатор 2027</h2>
+        <p class="offer-desc">Большая тройка открыта бесплатно. Выберите глубину разбора вашего года и союза:</p>
+        
+        <div class="tier-selector" id="tier-selector">
+          <div class="tier-card" data-tier="solo" data-price="590" data-votes="59">
+            <div class="tier-top">
+              <span class="tier-badge">ТАРИФ 1</span>
+              <span class="tier-radio-mark"></span>
+            </div>
+            <h4>СОЛО: Навигатор 2027</h4>
+            <p>12 глав года только для вас: циклы отношений, деловая активность, ключевые даты и сохранение в PDF.</p>
+            <div class="tier-price-row">
+              <strong class="tier-price-val">590 ₽</strong>
+              <small class="tier-votes">или 59 голосов</small>
+            </div>
+          </div>
+
+          <div class="tier-card active featured" data-tier="duet" data-price="890" data-votes="89">
+            <span class="featured-ribbon">★ ХИТ ВЫБОРА</span>
+            <div class="tier-top">
+              <span class="tier-badge">ТАРИФ 2</span>
+              <span class="tier-radio-mark"></span>
+            </div>
+            <h4>ДУЭТ: Я + Партнер</h4>
+            <p>Всё из «Соло» + полный расчет СОВМЕСТИМОСТИ с партнером (страсть, кризисы союза, точки доверия).</p>
+            <div class="tier-price-row">
+              <strong class="tier-price-val">890 ₽</strong>
+              <span class="tier-old-val">1 480 ₽</span>
+              <small class="tier-votes">или 89 голосов</small>
+            </div>
+          </div>
+
+          <div class="tier-card" data-tier="vip" data-price="1990" data-votes="199">
+            <div class="tier-top">
+              <span class="tier-badge">ТАРИФ 3</span>
+              <span class="tier-radio-mark"></span>
+            </div>
+            <h4>VIP: Разбор + Эксперт</h4>
+            <p>Всё из тарифа «Дуэт» + индивидуальный голосовой разбор от эксперта сообщества в закрытом диалоге.</p>
+            <div class="tier-price-row">
+              <strong class="tier-price-val">1 990 ₽</strong>
+              <small class="tier-votes">или 199 голосов</small>
+            </div>
+          </div>
+        </div>
+
+        <div id="month-preview" class="month-preview"></div>
+
+        <button id="unlock-report" class="primary-button" type="button">
+          <span class="loading-progress" aria-hidden="true"></span>
+          <span class="btn-text">Получить тариф «Дуэт: Я + Партнер» · 890 ₽</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
+        </button>
+        
+        <div class="legal-box">
+          <label class="legal-checkbox">
+            <input type="checkbox" checked disabled>
+            <span>Согласен с <a href="#" id="link-terms">Пользовательским соглашением (офертой)</a> и <a href="#" id="link-privacy">Политикой конфиденциальности</a> (152-ФЗ)</span>
+          </label>
+          <p class="microcopy legal-disclaimer">Цифровой контент формируется автоматически по астрономическим алгоритмам. Сервис носит информационно-развлекательный характер.</p>
+        </div>
+      </div>
+
+      <div id="report-unlocked" class="hidden">
+        <div class="report-toolbar">
+          <div class="toolbar-left">
+            <button id="report-back-map" class="toolbar-btn back-btn" type="button"><span>← К карте</span></button>
+            <span class="tier-indicator-pill" id="current-tier-pill">Тариф «Соло»</span>
+          </div>
+          <div class="toolbar-right">
+            <button id="change-tier-btn" class="toolbar-btn tier-btn" type="button"><span>Сменить тариф</span></button>
+          </div>
+        </div>
+
+        <div class="report-view-switcher" id="report-view-switcher">
+          <button type="button" class="switcher-tab active" id="tab-show-solo" data-report-type="solo">
+            <span class="tab-icon">✦</span>
+            <span>Личный навигатор</span>
+          </button>
+          <button type="button" class="switcher-tab" id="tab-show-duet" data-report-type="duet">
+            <span class="tab-icon">♡</span>
+            <span id="tab-duet-label">Атлас союза: Пара</span>
+          </button>
+        </div>
+
+        <div id="duet-teaser-panel" class="panel duet-teaser-card hidden">
+          <div class="panel-kicker" style="color:#ff8fab;">♡ ТАРИФ «ДУЭТ» · 890 ₽</div>
+          <h3 style="color:#f7d597;">Атлас союза: Карта пары 2027</h3>
+          <p>Полноценный совместный навигатор для двоих: глубокий анализ сексуальной и эмоциональной совместимости, бытовые триггеры ссор и помесячный календарь отношений на 2027 год с золотыми днями свиданий и днями бережности к границам.</p>
+          <div class="duet-teaser-actions">
+            <button id="open-duet-purchase" class="primary-button duet-primary-btn" type="button" style="width:100%;">
+              <span>Получить Атлас союза · 890 ₽ →</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="report-content"></div>
+        
+        <div class="panel expert-panel">
+          <div class="panel-kicker">ВТОРАЯ ЛИНИЯ · ЖИВОЙ ДИАЛОГ</div>
+          <h3>Остался вопрос по сложным периодам?</h3>
+          <p>Алгоритм рассчитал ваши общие циклы и даты напряжения. Если вы переживаете за отношения, партнерство или выбор в конкретный месяц — разберите эту точку лично со специалистом нашего сообщества.</p>
+          <div class="expert-badges">
+            <span class="badge-tag">✦ Индивидуальный разбор ситуации</span>
+            <span class="badge-tag">✦ Анализ совместимости</span>
+            <span class="badge-tag">✦ Персональный ответ специалиста</span>
+          </div>
+          <button id="ask-expert" class="primary-button expert-button" type="button">
+            <span>Задать вопрос эксперту сообщества</span>
+            <span aria-hidden="true">↗</span>
+          </button>
+          <button id="recalculate-partner-btn" class="secondary-button" type="button" style="margin-top:10px;width:100%;">
+            <span>✦ Сменить тариф / Рассчитать для партнера</span>
+          </button>
+          <p class="microcopy">Диалог открывается напрямую в сообщениях сообщества с сохраненным контекстом вашего отчета.</p>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Разделы приложения"><button type="button" data-view="chart" class="active" aria-current="page"><span class="nav-icon">✦</span><span>Карта</span></button><button type="button" data-view="day"><span class="nav-icon">☼</span><span>День</span></button><button type="button" data-view="gift"><span class="nav-icon">♡</span><span>Отношения</span></button><button type="button" data-view="report"><span class="nav-icon">☷</span><span>2027 год</span></button></nav>
+  </div>
+  <script src="/vk-bridge.min.js"></script>
+  <script src="/annual-report.js"></script>
+  <script src="/duet-report.js"></script>
+  <script src="/orbit.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "natal-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VK Mini App — демо натальной карты (тест, без монетизации)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "astronomy-engine": "^2.1.19",
+    "caelus": "^0.25.0",
+    "tz-lookup": "^6.1.25"
+  }
+}

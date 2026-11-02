@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Свой круг — персональный разбор</title>
+<!-- Шрифты лежат локально: на iPhone внешние CDN могут не загрузиться,
+     и страница повиснет на пустом экране -->
+<link rel="stylesheet" href="/fonts.css" />
+<style>
+  :root {
+    --night-900: #12131C;
+    --night-800: #1A1C29;
+    --night-700: #23263A;
+    --aurora-500: #6E5BD6;
+    --aurora-400: #8B7BEA;
+    --aurora-100: #E9E5FB;
+    --mint-500: #4FBFA8;
+    --paper: #FBFAFF;
+    --card: #FFFFFF;
+    --text-900: #17182A;
+    --text-600: #4E5069;
+    --text-400: #8B8DA6;
+    --line: #E6E4F0;
+    --radius: 18px;
+    --shadow: 0 1px 2px rgba(23,24,42,.04), 0 14px 34px -18px rgba(23,24,42,.22);
+    --shadow-lg: 0 2px 4px rgba(23,24,42,.05), 0 24px 48px -22px rgba(23,24,42,.28);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper); color: var(--text-900);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 620px; margin: 0 auto; padding: 0 16px calc(40px + env(safe-area-inset-bottom)); }
+
+  /* ── Символы зодиака (Unicode) ──────────────────────────
+     Грабли: у -apple-system и большинства текстовых шрифтов НЕТ глифов
+     зодиака (♈–♓), и браузер рисует пустые квадраты. Проверено замером
+     ширины: -apple-system → 0 из 12 глифов, а Apple Symbols / Segoe UI
+     Symbol / Noto Sans Symbols 2 → все 12. Поэтому symbol-шрифты в стеке
+     обязательны, убирать их нельзя. */
+  .zy {
+    font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2",
+                 "Noto Sans Symbols", "DejaVu Sans", "Arial Unicode MS",
+                 "Cormorant", serif;
+    color: var(--aurora-500);
+    font-size: 1.1em;
+    line-height: 1;
+    margin-left: .38em;
+    display: inline-block;
+  }
+
+  /* ── Герой ─────────────────────────────────────────── */
+  .hero {
+    margin: 0 -16px 20px;
+    padding: 30px 24px 34px;
+    background: linear-gradient(158deg, var(--night-900) 0%, var(--night-700) 68%, #2E2A55 100%);
+    color: #fff; text-align: center;
+    border-radius: 0 0 26px 26px;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute;
+    width: 320px; height: 320px; right: -120px; top: -160px;
+    background: radial-gradient(circle, rgba(110,91,214,.55) 0%, transparent 70%);
+  }
+  .hero-mark {
+    position: relative; display: inline-flex; align-items: center; gap: 9px;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--aurora-400); margin-bottom: 14px;
+  }
+  .hero-mark .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--mint-500); }
+  .hero h1 {
+    position: relative;
+    font-family: 'Cormorant', Georgia, serif; font-weight: 500;
+    font-size: 42px; line-height: 1.06; margin: 0 0 12px; letter-spacing: -.01em;
+  }
+  .hero p {
+    position: relative; margin: 0 auto; max-width: 400px;
+    font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.78);
+  }
+
+  /* ── Карточки ──────────────────────────────────────── */
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 24px 20px;
+    box-shadow: var(--shadow); margin-bottom: 14px;
+  }
+  h2 {
+    font-family: 'Cormorant', Georgia, serif; font-weight: 500;
+    font-size: 27px; line-height: 1.15; margin: 0 0 8px;
+  }
+  .sub { font-size: 13.5px; color: var(--text-600); margin: 0 0 20px; line-height: 1.55; }
+
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 18px; }
+  .step-n {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px;
+    background: var(--aurora-100); color: var(--aurora-500);
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-b { flex: 1; min-width: 0; }
+  .step-t { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+  .step-d { font-size: 13px; color: var(--text-600); }
+
+  .row { display: flex; gap: 12px; }
+  .row > * { flex: 1; min-width: 0; }
+
+  /* ── Поля ──────────────────────────────────────────── */
+  .field { margin-bottom: 15px; position: relative; }
+  label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text-600); margin-bottom: 6px; }
+  .opt { font-weight: 400; color: var(--text-400); }
+
+  input {
+    width: 100%; font-family: inherit; font-size: 16px; color: var(--text-900);
+    background: #F7F6FC; border: 1.5px solid transparent; border-radius: 12px;
+    padding: 13px 14px; outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  input::placeholder { color: #A9AAC0; }
+  input:focus { border-color: var(--aurora-400); background: #fff; }
+
+  .suggest {
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; margin-top: 5px; overflow: hidden;
+    box-shadow: var(--shadow-lg); display: none;
+  }
+  .suggest.open { display: block; }
+  .suggest div, .suggest button {
+    display: block; width: 100%; text-align: left;
+    padding: 12px 14px; font-size: 15px; font-family: inherit;
+    background: none; border: 0; border-bottom: 1px solid #F2F1F8; cursor: pointer;
+    color: inherit;
+  }
+  .suggest > *:last-child { border-bottom: 0; }
+  .suggest div:hover, .suggest button:hover { background: #F7F6FC; }
+  .suggest .cc { color: var(--text-400); font-size: 12px; margin-left: 6px; }
+  .suggest .manual { color: var(--aurora-500); font-weight: 600; font-size: 13.5px; }
+
+  .manual-box { margin-top: 10px; padding: 13px 14px; background: #FFF8EC; border: 1px solid #F5E3C2; border-radius: 12px; }
+  .manual-box .mb-title { font-size: 13px; color: #7A5A22; margin-bottom: 10px; }
+  .manual-row { display: flex; gap: 8px; }
+  .manual-row input { flex: 1; font-size: 14px; padding: 10px 12px; background: #fff; }
+
+  /* ── Кнопки ────────────────────────────────────────── */
+  .btn {
+    width: 100%; font-family: inherit; font-size: 16px; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, var(--aurora-500), #5B47C4);
+    border: 0; border-radius: 13px; padding: 17px; cursor: pointer;
+    box-shadow: 0 10px 24px -12px rgba(110,91,214,.9);
+    transition: transform .1s, opacity .15s;
+  }
+  .btn:active { transform: scale(.99); }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn-sm { width: auto; padding: 10px 16px; font-size: 14px; border-radius: 10px; box-shadow: none; }
+  .btn-ghost {
+    width: 100%; font-family: inherit; font-size: 15px; font-weight: 600;
+    color: var(--text-600); background: transparent;
+    border: 1.5px solid var(--line); border-radius: 13px; padding: 15px; cursor: pointer;
+  }
+  .fineprint { text-align: center; font-size: 12px; color: var(--text-400); margin-top: 13px; line-height: 1.5; }
+
+  /* ── Результат ─────────────────────────────────────── */
+  .greet { font-family: 'Cormorant', Georgia, serif; font-size: 30px; font-weight: 500; line-height: 1.12; margin: 0 0 6px; }
+  .meta { font-size: 13px; color: var(--text-400); margin: 0 0 20px; }
+
+  .triad { display: grid; gap: 11px; }
+  .triad-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 15px 16px;
+    background: linear-gradient(120deg, #F7F6FC, #FBFAFF);
+    border: 1px solid var(--line); border-radius: 14px;
+  }
+  .triad-ico {
+    flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px;
+    background: var(--night-800); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 19px;
+  }
+  .triad-role { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-400); }
+  .triad-sign { font-family: 'Cormorant', Georgia, serif; font-size: 23px; font-weight: 500; margin-top: 1px; }
+  .triad-deg { font-size: 12px; color: var(--text-400); margin-top: 1px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  th {
+    text-align: left; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-400); font-weight: 700; padding: 0 0 10px;
+  }
+  th:last-child, td:last-child { text-align: right; }
+  td { padding: 12px 0; border-top: 1px solid #F2F1F8; font-size: 15px; }
+  td.pl { color: var(--aurora-500); font-size: 18px; width: 30px; }
+
+  .note {
+    display: flex; gap: 11px; background: #FFF8EC; border: 1px solid #F5E3C2;
+    border-radius: 12px; padding: 13px 15px; font-size: 13px; color: #7A5A22;
+    line-height: 1.55; margin-top: 16px;
+  }
+  .note b { font-weight: 700; }
+
+  /* ── Оффер / пейволл ───────────────────────────────── */
+  .offer { background: linear-gradient(160deg, var(--night-800), var(--night-700)); border: 0; color: #fff; }
+  .offer h2 { color: #fff; }
+  .offer .sub { color: rgba(255,255,255,.72); }
+  .offer-list { list-style: none; padding: 0; margin: 0 0 20px; }
+  .offer-list li { position: relative; padding-left: 22px; margin-bottom: 9px; font-size: 14px; color: rgba(255,255,255,.88); }
+  .offer-list li::before { content: ''; position: absolute; left: 0; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--mint-500); }
+
+  /* Размытая «дверь» в полный отчёт */
+  .locked {
+    position: relative; max-height: 210px; overflow: hidden;
+    border-radius: 12px; margin-bottom: 20px;
+  }
+  .locked .locked-inner { filter: blur(4.5px); opacity: .5; user-select: none; pointer-events: none; }
+  .locked::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,28,41,0) 0%, rgba(26,28,41,.85) 72%, var(--night-800) 100%);
+  }
+  .lock-line {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 13.5px; color: #FFD9A8; margin-bottom: 14px;
+  }
+
+  /* ── Полный отчёт ──────────────────────────────────── */
+  .rep-section { margin-bottom: 26px; }
+  .rep-section:last-child { margin-bottom: 0; }
+  .rep-title {
+    font-family: 'Cormorant', Georgia, serif; font-size: 25px;
+    font-weight: 500; margin: 0 0 10px; line-height: 1.2;
+  }
+  .rep-text { font-size: 15px; line-height: 1.72; color: var(--text-900); margin: 0 0 12px; }
+  .rep-text:last-child { margin-bottom: 0; }
+
+  .rep-pos {
+    padding: 20px 18px; border-radius: 15px;
+    background: linear-gradient(140deg, #F7F6FC, #FFFFFF);
+    border: 1px solid var(--line); margin-bottom: 14px;
+  }
+  .rep-role { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-400); }
+  .rep-sign { font-family: 'Cormorant', Georgia, serif; font-size: 29px; font-weight: 500; margin: 3px 0 4px; }
+  .rep-degree { font-size: 12px; color: var(--text-400); margin-bottom: 16px; }
+  .rep-block { margin-bottom: 15px; }
+  .rep-block:last-child { margin-bottom: 0; }
+  .rep-block-label { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; }
+  .rep-block-text { font-size: 14.5px; line-height: 1.7; color: var(--text-600); margin: 0; }
+
+  .rep-aspect {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px 0; border-top: 1px solid #F2F1F8;
+  }
+  .rep-aspect:first-of-type { border-top: 0; }
+  .rep-aspect-badge {
+    flex-shrink: 0; font-size: 11px; font-weight: 700;
+    padding: 4px 9px; border-radius: 7px;
+    background: var(--aurora-100); color: var(--aurora-500);
+  }
+  .rep-aspect-name { font-size: 14.5px; font-weight: 600; margin-bottom: 2px; }
+  .rep-aspect-text { font-size: 13.5px; color: var(--text-600); line-height: 1.6; }
+
+  .rep-sphere { padding: 15px 0; border-top: 1px solid #F2F1F8; }
+  .rep-sphere:first-of-type { border-top: 0; }
+  .rep-sphere-name { font-size: 14.5px; font-weight: 700; margin-bottom: 4px; }
+  .rep-sphere-text { font-size: 14px; color: var(--text-600); line-height: 1.65; margin: 0; }
+
+  .rep-month { display: flex; gap: 14px; padding: 11px 0; border-top: 1px solid #F2F1F8; }
+  .rep-month:first-of-type { border-top: 0; }
+  .rep-month-name { flex-shrink: 0; width: 92px; font-size: 13.5px; font-weight: 700; }
+  .rep-month-text { font-size: 13.5px; color: var(--text-600); line-height: 1.6; }
+
+  .llm-tag {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    padding: 3px 9px; border-radius: 999px;
+    background: var(--aurora-100); color: var(--aurora-500); margin-left: 8px;
+  }
+
+  /* ── Служебное ─────────────────────────────────────── */
+  .loading { text-align: center; padding: 44px 0; color: var(--text-400); font-size: 14px; }
+  .spinner {
+    width: 38px; height: 38px; margin: 0 auto 16px;
+    border: 3px solid var(--aurora-100); border-top-color: var(--aurora-500);
+    border-radius: 50%; animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hidden { display: none !important; }
+
+  .devbar {
+    font-size: 12px; color: var(--text-600); padding: 11px 14px;
+    border-radius: 11px; background: #F2F1F8; margin-bottom: 14px; line-height: 1.5;
+  }
+  .devbar code { font-size: 11px; color: var(--text-900); word-break: break-all; }
+  .badge {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    padding: 3px 9px; border-radius: 999px;
+    background: var(--aurora-100); color: var(--aurora-500);
+    margin-left: 7px; vertical-align: middle;
+  }
+  .badge.ok { background: #DCF5EE; color: #1F7A63; }
+  .badge.warn { background: #FFF0D6; color: #8A6212; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-mark"><span class="dot"></span> разборы от живых практиков</div>
+    <h1>Свой круг</h1>
+    <p>Считаем вашу карту — и разбираем её так, как разбирал бы человек, а не алгоритм.</p>
+  </div>
+
+  <div id="devbar" class="devbar hidden"></div>
+
+  <!-- Сюда выводятся ошибки: иначе на мобильном виден пустой экран
+       и невозможно понять, что произошло -->
+  <div id="error-box" class="hidden" style="background:#FDECEC;border:1px solid #F5C2C2;
+       color:#8A2B2B;border-radius:11px;padding:12px 14px;margin-bottom:14px;
+       font-size:12.5px;line-height:1.5;word-break:break-word"></div>
+
+  <!-- ЭКРАН 1: форма -->
+  <section id="screen-form">
+    <div class="card">
+      <h2>Начнём с вашей даты</h2>
+      <p class="sub">
+        Карта строится мгновенно и бесплатно. Понадобится дата, время и город рождения —
+        чем точнее время, тем точнее ответ про Асцендент.
+      </p>
+
+      <form id="form" autocomplete="off">
+        <div class="field">
+          <label for="name">Как вас зовут</label>
+          <input id="name" type="text" placeholder="Имя" />
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="date">Дата рождения</label>
+            <input id="date" type="text" inputmode="numeric" placeholder="ДД.ММ.ГГГГ" />
+          </div>
+          <div class="field">
+            <label for="time">Время <span class="opt">можно не знать</span></label>
+            <input id="time" type="time" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="city">Где родились</label>
+          <input id="city" type="text" placeholder="Начните вводить город" autocomplete="off" />
+          <div class="suggest" id="suggest"></div>
+        </div>
+
+        <button class="btn" type="submit">Показать мою карту</button>
+        <p class="fineprint">
+          Бесплатно, без регистрации и без СМС. Всё, что вы ввели, остаётся внутри приложения.
+        </p>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:22px">Что вы получите</h2>
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-b">
+          <div class="step-t">Три опоры вашей карты</div>
+          <div class="step-d">Солнце, Луна и Асцендент с точными градусами.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-b">
+          <div class="step-t">Вся карта неба</div>
+          <div class="step-d">Семь планет и связи между ними.</div>
+        </div>
+      </div>
+      <div class="step" style="margin-bottom:0">
+        <div class="step-n">3</div>
+        <div class="step-b">
+          <div class="step-t">Полный разбор</div>
+          <div class="step-d">Характер, отношения, деньги и прогноз на год.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 2: загрузка -->
+  <section id="screen-loading" class="hidden">
+    <div class="card">
+      <div class="loading">
+        <div class="spinner"></div>
+        <div id="loading-text">Считаем положение планет на вашу дату…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 3: карта + пейволл -->
+  <section id="screen-result" class="hidden">
+    <div class="card">
+      <h2 class="greet" id="result-title">Ваша карта</h2>
+      <p class="meta" id="result-meta"></p>
+      <div class="triad" id="triad"></div>
+      <div id="accuracy-warn"></div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:22px">Положения планет</h2>
+      <p class="sub" style="margin-bottom:12px">Точные градусы на момент вашего рождения.</p>
+      <table>
+        <thead><tr><th colspan="2">Планета</th><th>Позиция</th></tr></thead>
+        <tbody id="planets"></tbody>
+      </table>
+    </div>
+
+    <div class="card offer">
+      <h2>Полный разбор</h2>
+      <p class="sub">
+        Три опоры — это вход. Дальше начинается то, ради чего люди приходят.
+      </p>
+
+      <div class="locked">
+        <div class="locked-inner">
+          <div class="rep-pos">
+            <div class="rep-role">Солнце · Ядро личности</div>
+            <div class="rep-sign">Близнецы</div>
+            <div class="rep-block">
+              <div class="rep-block-label">Суть положения</div>
+              <p class="rep-block-text">
+                Вы одновременно держите несколько линий и переводите одно в другое.
+                Слово для вас — рабочий инструмент, а не украшение. Вы замечаете
+                несоответствия, которые другие пропускают, и потому вас трудно обмануть.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lock-line">🔒 Глубокий разбор дня и полный отчёт закрыты</div>
+
+      <ul class="offer-list">
+        <li>Солнце, Луна и Асцендент — по 4 разбора на каждую позицию</li>
+        <li>Самые точные аспекты: где сила, а где трение</li>
+        <li>Отношения, дело и деньги, ресурс</li>
+        <li>Прогноз на 12 месяцев по месяцам</li>
+        <li>Личная рекомендация практика</li>
+      </ul>
+
+      <button class="btn" id="btn-unlock" type="button">Открыть полный разбор · 69 голосов</button>
+      <p class="fineprint" style="color:rgba(255,255,255,.5)">
+        Демо-режим: оплата имитируется, голоса не списываются
+      </p>
+    </div>
+
+    <button class="btn-ghost" id="btn-restart" type="button">Построить другую карту</button>
+  </section>
+
+  <!-- ЭКРАН 4: полный отчёт -->
+  <section id="screen-report" class="hidden">
+    <div class="card">
+      <h2 class="greet" id="report-title">Ваш разбор</h2>
+      <p class="meta" id="report-meta"></p>
+      <div id="report-body"></div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:20px">Что дальше</h2>
+      <p class="sub" style="margin-bottom:16px">
+        Если хотите обсудить это лично — практик ответит на ваши вопросы.
+      </p>
+      <button class="btn" id="btn-expert" type="button">Написать практику</button>
+      <p class="fineprint">Человек пишет первым — это законно и не считается рассылкой</p>
+    </div>
+
+    <button class="btn-ghost" id="btn-restart-2" type="button">Построить другую карту</button>
+  </section>
+
+</div>
+
+<!-- vk-bridge лежит локально: внешний CDN может не загрузиться
+     в WebView на iOS, и тогда приложение молча ломается -->
+<script src="/vk-bridge.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var state = {
+    launchParams: '',
+    selectedCity: null,
+    mode: 'dev',
+    chart: null,
+    chartPayload: null,
+  };
+
+  // ── Показ ошибок на экране (важно для мобильных) ─────────
+  var errorShown = false;
+  function showError(msg) {
+    if (errorShown) return;
+    errorShown = true;
+    var box = document.getElementById('error-box');
+    if (!box) { return; }
+    box.textContent = 'Ошибка: ' + msg;
+    box.classList.remove('hidden');
+  }
+
+  window.addEventListener('error', function (e) {
+    showError((e && e.message) || 'неизвестная ошибка скрипта');
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    var r = e && e.reason;
+    showError((r && r.message) || String(r || 'отклонённый промис'));
+  });
+
+  // ── Инициализация VK ─────────────────────────────────────
+  function initVk() {
+    state.launchParams = window.location.search || '';
+    var bridge = window.vkBridge;
+
+    // Без vk-bridge приложение всё равно должно работать (локальный режим)
+    if (!bridge) {
+      console.warn('[vk] vk-bridge не загрузился — работаем в локальном режиме');
+    }
+
+    var finish = function () {
+      fetch('/api/init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ launchParams: state.launchParams })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) { state.mode = data.mode || 'dev'; showDevBar(data); })
+        .catch(function () {});
+    };
+
+    if (bridge && typeof bridge.send === 'function') {
+      try { bridge.send('VKWebAppInit', {}).then(finish).catch(finish); }
+      catch (e) { finish(); }
+    } else { finish(); }
+  }
+
+  function showDevBar(data) {
+    var bar = document.getElementById('devbar');
+    bar.classList.remove('hidden');
+    if (!data.signatureChecked) {
+      bar.innerHTML = 'Локальный режим — подпись VK не проверяется. '
+        + 'Укажите <code>VK_SECURE_KEY</code> в .env, чтобы включить проверку.';
+      return;
+    }
+    if (data.signatureValid) {
+      bar.innerHTML = 'Запуск из VK подтверждён.<span class="badge ok">подпись ок</span>'
+        + '<br><code>vk_user_id: ' + (data.userId || '—') + '</code>';
+      return;
+    }
+    bar.innerHTML = 'Подпись VK не сошлась: ' + (data.reason || 'причина неизвестна')
+      + '<span class="badge warn">проверьте</span>';
+  }
+
+  // ── Маска даты ───────────────────────────────────────────
+  var dateInput = document.getElementById('date');
+  dateInput.addEventListener('input', function () {
+    var v = dateInput.value.replace(/\D/g, '').slice(0, 8);
+    var out = v;
+    if (v.length > 4) out = v.slice(0, 2) + '.' + v.slice(2, 4) + '.' + v.slice(4);
+    else if (v.length > 2) out = v.slice(0, 2) + '.' + v.slice(2);
+    dateInput.value = out;
+  });
+
+  // ── Автокомплит города + ручной ввод ─────────────────────
+  var cityInput = document.getElementById('city');
+  var suggest = document.getElementById('suggest');
+  var geoTimer = null;
+
+  cityInput.addEventListener('input', function () {
+    state.selectedCity = null;
+    var q = cityInput.value.trim();
+    clearTimeout(geoTimer);
+    if (q.length < 2) { closeSuggest(); return; }
+
+    geoTimer = setTimeout(function () {
+      fetch('/api/geo?q=' + encodeURIComponent(q))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var items = data.items || [];
+          suggest.innerHTML = '';
+
+          items.forEach(function (item) {
+            var row = document.createElement('div');
+            row.innerHTML = item.name + '<span class="cc">' + item.country + '</span>';
+            row.addEventListener('click', function () { pickCity(item); });
+            suggest.appendChild(row);
+          });
+
+          // Если точного совпадения нет — предлагаем ввести город вручную
+          var exact = items.some(function (i) {
+            return i.name.toLowerCase() === q.toLowerCase();
+          });
+          if (!exact) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'manual';
+            btn.textContent = 'Нет моего города — ввести координаты вручную';
+            btn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              closeSuggest();
+              showManualBox(q);
+            });
+            suggest.appendChild(btn);
+          }
+
+          if (suggest.children.length) suggest.classList.add('open');
+          else closeSuggest();
+        })
+        .catch(function () {});
+    }, 220);
+  });
+
+  function pickCity(item) {
+    cityInput.value = item.name;
+    state.selectedCity = { name: item.name, lat: item.lat, lon: item.lon, tz: item.tz };
+    hideManualBox();
+    closeSuggest();
+  }
+
+  function closeSuggest() { suggest.classList.remove('open'); }
+
+  document.addEventListener('click', function (e) {
+    if (!suggest.contains(e.target) && e.target !== cityInput) closeSuggest();
+  });
+
+  // ── Ручной ввод координат ────────────────────────────────
+  function showManualBox(hint) {
+    hideManualBox();
+    var box = document.createElement('div');
+    box.className = 'manual-box';
+    box.id = 'manual-box';
+    box.innerHTML =
+      '<div class="mb-title">Города нет в демо-справочнике. '
+      + 'Введите координаты — они есть в Google Maps (правый клик по точке).</div>'
+      + '<div class="manual-row">'
+      + '  <input id="m-lat" type="text" inputmode="decimal" placeholder="Широта, напр. 59.13" />'
+      + '  <input id="m-lon" type="text" inputmode="decimal" placeholder="Долгота, напр. 37.91" />'
+      + '  <button class="btn btn-sm" type="button" id="m-ok">Ок</button>'
+      + '</div>';
+    cityInput.parentElement.appendChild(box);
+
+    document.getElementById('m-ok').addEventListener('click', function () {
+      var lat = parseFloat(String(document.getElementById('m-lat').value).replace(',', '.'));
+      var lon = parseFloat(String(document.getElementById('m-lon').value).replace(',', '.'));
+      if (isNaN(lat) || isNaN(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+        alert('Проверьте координаты: широта от -90 до 90, долгота от -180 до 180');
+        return;
+      }
+      state.selectedCity = { name: hint || 'Введено вручную', lat: lat, lon: lon, tz: 3 };
+      cityInput.value = (hint ? hint + ' ' : '') + '(координаты вручную)';
+      hideManualBox();
+    });
+  }
+
+  function hideManualBox() {
+    var b = document.getElementById('manual-box');
+    if (b) b.remove();
+  }
+
+  // ── Отправка формы ───────────────────────────────────────
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById('name').value.trim();
+    var dateRaw = dateInput.value.trim();
+    var time = document.getElementById('time').value;
+    var city = state.selectedCity;
+
+    if (!/^\d{2}\.\d{2}\.\d{4}$/.test(dateRaw)) { alert('Введите дату в формате ДД.ММ.ГГГГ'); return; }
+    if (!city) { alert('Выберите город из подсказок или введите координаты вручную'); return; }
+
+    var parts = dateRaw.split('.');
+    state.chartPayload = {
+      name: name,
+      date: parts[2] + '-' + parts[1] + '-' + parts[0],
+      time: time || undefined,
+      latitude: city.lat,
+      longitude: city.lon,
+      tzOffsetHours: typeof city.tz === 'number' ? city.tz : 3,
+    };
+
+    show('screen-loading');
+    document.getElementById('loading-text').textContent = 'Считаем положение планет на вашу дату…';
+
+    fetch('/api/chart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state.chartPayload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.ok) throw new Error(data.error || 'ошибка расчёта');
+        state.chart = data.chart;
+        renderChart(data.chart, city.name);
+      })
+      .catch(function (err) {
+        alert('Не получилось посчитать карту: ' + err.message);
+        show('screen-form');
+      });
+  });
+
+  // ── Отрисовка карты ──────────────────────────────────────
+  function renderChart(chart, cityName) {
+    var sun = chart.bodies.find(function (b) { return b.name === 'Солнце'; });
+    var moon = chart.bodies.find(function (b) { return b.name === 'Луна'; });
+    var ac = chart.ascendant;
+
+    document.getElementById('result-title').textContent =
+      chart.input.name ? (chart.input.name + ', вот ваша карта') : 'Ваша карта';
+
+    document.getElementById('result-meta').textContent =
+      cityName + ' · ' + chart.input.date +
+      (chart.input.time ? ' · ' + chart.input.time : ' · время не указано');
+
+    var triad = document.getElementById('triad');
+    triad.innerHTML = '';
+    [
+      { role: 'Ядро личности', glyph: sun.glyph, body: sun },
+      { role: 'Эмоции', glyph: moon.glyph, body: moon },
+      { role: 'Как видят другие', glyph: 'AC', body: ac }
+    ].forEach(function (item) {
+      var el = document.createElement('div');
+      el.className = 'triad-item';
+      el.innerHTML =
+        '<div class="triad-ico">' + item.glyph + '</div>' +
+        '<div>' +
+          '<div class="triad-role">' + item.role + '</div>' +
+          '<div class="triad-sign">' + item.body.sign +
+            '<span class="zy">' + (item.body.signGlyph || '') + '</span></div>' +
+          '<div class="triad-deg">' + item.body.degreeInSign + '° ' +
+            String(item.body.minuteInSign).padStart(2, '0') + "'" +
+            (item.body.approximate ? ' · приблизительно' : '') + '</div>' +
+        '</div>';
+      triad.appendChild(el);
+    });
+
+    document.getElementById('accuracy-warn').innerHTML = !chart.input.hasTime
+      ? '<div class="note"><div>!</div><div><b>Время рождения не указано.</b> '
+        + 'Солнце и Луна посчитаны точно, а вот Асцендент — приблизительно: '
+        + 'он меняет знак примерно каждые два часа.</div></div>'
+      : '';
+
+    var tbody = document.getElementById('planets');
+    tbody.innerHTML = '';
+    chart.bodies.forEach(function (b) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="pl">' + b.glyph + '</td>' +
+        '<td>' + b.name + '</td>' +
+        '<td>' + b.label + '<span class="zy">' + (b.signGlyph || '') + '</span></td>';
+      tbody.appendChild(tr);
+    });
+
+    show('screen-result');
+  }
+
+  // ── Пейволл (в демо — имитация оплаты) ───────────────────
+  document.getElementById('btn-unlock').addEventListener('click', function () {
+    // В бою здесь VKWebAppShowOrderBox — нативное окно оплаты ВК.
+    // Сейчас просто имитируем и сразу показываем полный разбор.
+    show('screen-loading');
+    document.getElementById('loading-text').textContent =
+      'Практик собирает ваш разбор…';
+
+    fetch('/api/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state.chartPayload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.ok) throw new Error(data.error || 'ошибка генерации');
+        renderReport(data.report);
+      })
+      .catch(function (err) {
+        alert('Не получилось собрать разбор: ' + err.message);
+        show('screen-result');
+      });
+  });
+
+  document.getElementById('btn-expert').addEventListener('click', function () {
+    alert('В боевой версии здесь откроется диалог с сообществом практика.\n\n'
+        + 'Человек пишет первым — это не рассылка, поэтому не нарушает правила ВК (п. 4.3.4).');
+  });
+
+  // ── Отрисовка полного разбора ────────────────────────────
+  function renderReport(report) {
+    document.getElementById('report-title').textContent = report.title || 'Ваш разбор';
+
+    // Техническую сноску про LLM показываем только при явной необходимости,
+    // чтобы на демонстрации руководству не было лишних деталей реализации.
+    var metaParts = [];
+    if (state.chart && state.chart.input && state.chart.input.date) {
+      metaParts.push(state.chart.input.date);
+    }
+    if (report.source !== 'llm') metaParts.push('демо-режим');
+    document.getElementById('report-meta').textContent = metaParts.join(' · ');
+
+    var body = document.getElementById('report-body');
+    body.innerHTML = '';
+
+    report.sections.forEach(function (s) {
+      var wrap = document.createElement('div');
+      wrap.className = 'rep-section';
+
+      if (s.type === 'intro' || s.type === 'outro') {
+        wrap.innerHTML = '<h2 class="rep-title">' + esc(s.title) + '</h2>'
+          + '<p class="rep-text">' + esc(s.text) + '</p>';
+      }
+
+      else if (s.type === 'position') {
+        var blocks = s.blocks.map(function (b) {
+          return '<div class="rep-block">'
+            + '<div class="rep-block-label">' + esc(b.label) + '</div>'
+            + '<p class="rep-block-text">' + esc(b.text) + '</p>'
+            + '</div>';
+        }).join('');
+        wrap.innerHTML =
+          '<div class="rep-pos">'
+          + '<div class="rep-role">' + esc(s.role) + ' · ' + esc(s.subtitle) + '</div>'
+          + '<div class="rep-sign">' + esc(s.sign)
+            + '<span class="zy">' + esc(s.signGlyph || '') + '</span></div>'
+          + '<div class="rep-degree">' + esc(s.degree)
+            + (s.approximate ? ' · приблизительно' : '') + '</div>'
+          + blocks
+          + '</div>';
+      }
+
+      else if (s.type === 'aspects') {
+        var items = (s.items || []).map(function (a) {
+          return '<div class="rep-aspect">'
+            + '<div class="rep-aspect-badge">' + esc(a.label) + '</div>'
+            + '<div>'
+            +   '<div class="rep-aspect-name">' + esc(a.a) + ' — ' + esc(a.b)
+            +     ' <span style="color:var(--text-400);font-weight:400">('
+            +     a.orb + '°)</span></div>'
+            +   '<div class="rep-aspect-text">' + esc(a.meaning) + '</div>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+        wrap.innerHTML = '<h2 class="rep-title">' + esc(s.title) + '</h2>'
+          + '<p class="rep-text" style="font-size:14px;color:var(--text-600)">'
+          + esc(s.text) + '</p>' + items;
+      }
+
+      else if (s.type === 'spheres') {
+        var sp = (s.items || []).map(function (i) {
+          return '<div class="rep-sphere">'
+            + '<div class="rep-sphere-name">' + esc(i.name) + '</div>'
+            + '<p class="rep-sphere-text">' + esc(i.text) + '</p>'
+            + '</div>';
+        }).join('');
+        wrap.innerHTML = '<h2 class="rep-title">' + esc(s.title) + '</h2>' + sp;
+      }
+
+      else if (s.type === 'forecast') {
+        var mo = (s.months || []).map(function (m) {
+          return '<div class="rep-month">'
+            + '<div class="rep-month-name">' + esc(m.month) + '</div>'
+            + '<div class="rep-month-text">' + esc(m.text) + '</div>'
+            + '</div>';
+        }).join('');
+        wrap.innerHTML = '<h2 class="rep-title">' + esc(s.title) + '</h2>'
+          + '<p class="rep-text" style="font-size:14px;color:var(--text-600)">'
+          + esc(s.text) + '</p>' + mo;
+      }
+
+      body.appendChild(wrap);
+    });
+
+    show('screen-report');
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function show(id) {
+    ['screen-form', 'screen-loading', 'screen-result', 'screen-report'].forEach(function (s) {
+      document.getElementById(s).classList.toggle('hidden', s !== id);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  document.getElementById('btn-restart').addEventListener('click', function () { show('screen-form'); });
+  document.getElementById('btn-restart-2').addEventListener('click', function () { show('screen-form'); });
+
+  try {
+    initVk();
+  } catch (err) {
+    showError((err && err.message) || 'сбой инициализации');
+  }
+})();
+</script>
+</body>
+</html>

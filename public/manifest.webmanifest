@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "Свой круг — личная карта неба",
+  "short_name": "Свой круг",
+  "description": "Личная карта неба и годовой атлас",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080f24",
+  "theme_color": "#080f24",
+  "lang": "ru",
+  "icons": [
+    { "src": "/app-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

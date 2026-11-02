@@ -1,0 +1,39 @@
+{
+  "format": "pptx",
+  "verdict": "pass",
+  "checks": [
+    {
+      "id": "package",
+      "status": "pass"
+    },
+    {
+      "id": "contains",
+      "status": "pass",
+      "text": "969 000"
+    },
+    {
+      "id": "contains",
+      "status": "pass",
+      "text": "1,06%"
+    },
+    {
+      "id": "contains",
+      "status": "pass",
+      "text": "16"
+    },
+    {
+      "id": "contains",
+      "status": "pass",
+      "text": "\u0427\u0442\u043e \u043d\u0443\u0436\u043d\u043e"
+    },
+    {
+      "id": "count",
+      "status": "pass",
+      "expected": 12,
+      "actual": 12
+    }
+  ],
+  "summary": {
+    "slides": 12
+  }
+}
