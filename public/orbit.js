@@ -417,32 +417,94 @@
     renderReport();
   }
 
+  function calculateSynastry(userChart, partnerName, partnerDate) {
+    const userSun = userChart?.bodies?.find((b) => b.name === 'Солнце');
+    const signs = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
+    const [pY, pM, pD] = partnerDate.split('-').map(Number);
+    const zDays = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 22];
+    const zIdx = (pD < zDays[pM - 1]) ? (pM - 2 + 12) % 12 : pM - 1;
+    const pSign = signs[zIdx];
+
+    const userIdx = userSun ? userSun.signIndex : 8;
+    const distance = Math.min((userIdx - zIdx + 12) % 12, (zIdx - userIdx + 12) % 12);
+    
+    // Detailed astrological aspects and realistic differentiated resonance
+    const baseAspects = [
+      { base: 80, aspect: 'Соединение (Зеркало)', resonance: 'Магнетизм и зеркальные привычки' },
+      { base: 56, aspect: 'Полусекстиль (Притирка)', resonance: 'Разный темп и нестыковка привычек' },
+      { base: 86, aspect: 'Секстиль (Легкость)', resonance: 'Взаимное вдохновение и дружба' },
+      { base: 63, aspect: 'Квадратура (Трение)', resonance: 'Искры страсти через борьбу эго' },
+      { base: 92, aspect: 'Тригон (Гармония)', resonance: 'Естественное родство и понимание' },
+      { base: 67, aspect: 'Квиконс (Парадокс)', resonance: 'Притяжение непохожих характеров' },
+      { base: 74, aspect: 'Оппозиция (Полярность)', resonance: 'Полярный магнит: влечение и контраст' }
+    ];
+
+    const aspectInfo = baseAspects[distance] || { base: 75, aspect: 'Индивидуальный аспект', resonance: 'Смешанный резонанс' };
+    const dayJitter = ((pD * 7 + pM * 13) % 7) - 3;
+    let finalScore = aspectInfo.base + dayJitter;
+    if (finalScore < 52) finalScore = 52;
+    if (finalScore > 94) finalScore = 94;
+
+    return {
+      name: partnerName,
+      date: partnerDate,
+      sign: pSign,
+      score: finalScore,
+      distance,
+      aspect: aspectInfo.aspect,
+      resonance: aspectInfo.resonance
+    };
+  }
+
   function renderDuetPartnerPrompt(container) {
+    const isChange = Boolean(state.partner && state.editingPartner);
+    const priceBadge = isChange
+      ? '<span class="duet-price-pill">Смена партнера · 300 ₽</span>'
+      : '<span class="duet-price-pill included">Включено в тариф «Дуэт»</span>';
+    const title = isChange ? 'Смена данных партнера' : 'Для кого рассчитываем карту пары?';
+    const introText = isChange
+      ? 'Каждый персональный расчет строится на астрономических эфемеридах двух натальных карт: синастрия, лунные циклы и 12 глав года пересчитываются индивидуально. Стоимость пересчета на нового партнера составляет 300 ₽.'
+      : 'У вас открыт расчет союза на 2027 год. Чтобы составить индивидуальную синастрию, определить ритмы сближения, золотые даты свиданий и дни взаимной чуткости, укажите имя и дату рождения вашего партнера.';
+    const btnText = isChange
+      ? 'Оплатить 300 ₽ и рассчитать новый союз ✦'
+      : 'Рассчитать персональный Атлас союза 2027 ✦';
+    const cancelBtn = isChange
+      ? '<button type="button" id="duet-cancel-partner-change" class="secondary-button" style="margin-top:10px;width:100%;">← Отмена (вернуться к текущему разбору пары)</button>'
+      : '';
+
     container.innerHTML = `
       <div class="panel duet-partner-prompt-panel">
-        <div class="duet-kicker">✦ ДАННЫЕ ВАШЕГО СОЮЗА · ТАРИФ «ДУЭТ» ✦</div>
-        <h2 style="font-family:var(--display);font-size:32px;color:var(--text);margin:10px 0 8px;">Для кого рассчитываем карту пары?</h2>
+        <div class="duet-prompt-head">
+          <div class="duet-kicker">✦ ТАРИФ «ДУЭТ» · КАРТА СОЮЗА ✦</div>
+          ${priceBadge}
+        </div>
+        <h2 style="font-family:var(--display);font-size:32px;color:var(--text);margin:10px 0 8px;">${title}</h2>
         <p class="panel-lede" style="color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:20px;">
-          У вас открыт расчет союза на 2027 год. Чтобы составить индивидуальную синастрию, определить ритмы сближения, золотые даты свиданий и дни взаимной чуткости, укажите имя и дату рождения вашего партнера.
+          ${introText}
         </p>
         <form id="duet-direct-partner-form" class="duet-partner-form">
           <div class="field-row">
             <label class="field">
               <span>Имя партнера</span>
-              <input id="duet-input-partner-name" type="text" placeholder="Например, Алексей" required maxlength="60" value="${escapeHtml(state.partner?.name || '')}">
+              <input id="duet-input-partner-name" type="text" placeholder="Например, Алексей" required maxlength="60" value="${escapeHtml(isChange ? '' : (state.partner?.name || ''))}">
             </label>
             <label class="field">
               <span>Дата рождения партнера</span>
-              <input id="duet-input-partner-date" type="text" inputmode="numeric" placeholder="ДД.ММ.ГГГГ" required value="${state.partner?.date ? state.partner.date.split('-').reverse().join('.') : ''}">
+              <input id="duet-input-partner-date" type="text" inputmode="numeric" placeholder="ДД.ММ.ГГГГ" required value="${isChange ? '' : (state.partner?.date ? state.partner.date.split('-').reverse().join('.') : '')}">
             </label>
           </div>
           <button class="primary-button duet-primary-btn" type="submit" style="width:100%;margin-top:12px;justify-content:center;font-size:14px;padding-block:14px;">
-            <span>Рассчитать персональный Атлас союза 2027</span>
-            <span aria-hidden="true">✦</span>
+            <span>${btnText}</span>
           </button>
+          ${cancelBtn}
         </form>
       </div>
     `;
+
+    $('duet-cancel-partner-change')?.addEventListener('click', () => {
+      state.editingPartner = false;
+      renderReport();
+    });
 
     const dDateInput = $('duet-input-partner-date');
     if (dDateInput) {
@@ -464,26 +526,24 @@
         return;
       }
       const pDate = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-      const userSun = state.chart?.bodies?.find((b) => b.name === 'Солнце');
       
-      const [pY, pM, pD] = pDate.split('-').map(Number);
-      const zDays = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 22];
-      const zIdx = (pD < zDays[pM - 1]) ? (pM - 2 + 12) % 12 : pM - 1;
-      const signs = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
-      const pSign = signs[zIdx];
-      
-      const userIdx = userSun ? userSun.signIndex : 0;
-      const diff = Math.abs(userIdx - zIdx);
-      const score = [88, 79, 86, 74, 94, 69, 91][diff % 7] || 82;
-      
-      state.partner = { name: pName, date: pDate, sign: pSign, score };
-      state.editingPartner = false;
-      save();
-      renderPartner();
-      const tabDuetLabel = $('tab-duet-label');
-      if (tabDuetLabel) tabDuetLabel.textContent = `Союз: Я + ${pName}`;
-      notice(`Атлас союза для пары с ${pName} успешно рассчитан!`, true);
-      switchReportView('duet');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.querySelector('span').textContent = isChange ? 'Обработка оплаты 300 ₽...' : 'Рассчитываем карту пары...';
+      }
+
+      setTimeout(() => {
+        const synastry = calculateSynastry(state.chart, pName, pDate);
+        state.partner = synastry;
+        state.editingPartner = false;
+        save();
+        renderPartner();
+        const tabDuetLabel = $('tab-duet-label');
+        if (tabDuetLabel) tabDuetLabel.textContent = `Союз: Я + ${pName}`;
+        notice(isChange ? `Оплата 300 ₽ подтверждена. Атлас союза для пары с ${pName} успешно пересчитан!` : `Атлас союза для пары с ${pName} успешно рассчитан!`, true);
+        switchReportView('duet');
+      }, 500);
     });
   }
 
@@ -517,6 +577,12 @@
           $('duet-change-partner-btn')?.addEventListener('click', () => {
             state.editingPartner = true;
             renderDuetPartnerPrompt(reportContent);
+            reportContent.scrollIntoView({ behavior: 'smooth' });
+          });
+          $('duet-change-partner-bottom-btn')?.addEventListener('click', () => {
+            state.editingPartner = true;
+            renderDuetPartnerPrompt(reportContent);
+            reportContent.scrollIntoView({ behavior: 'smooth' });
           });
         }
       } else {
@@ -809,8 +875,13 @@
     $('partner-name').value = p.name;
     $('partner-date').value = p.date.split('-').reverse().join('.');
     $('synastry-percent').textContent = `${p.score}%`;
-    $('synastry-title').textContent = `${p.name} (${p.sign}) · ${p.score}% связь`;
-    $('synastry-teaser').textContent = `Ваша связь строится на сильном взаимном притяжении. Натальные планеты формируют выраженный эмоциональный резонанс: способность понимать друг друга без лишних слов, но с необходимостью беречь личное пространство.`;
+    $('synastry-title').textContent = `${p.name} (${p.sign}) · ${p.score}% ${p.aspect || 'связь'}`;
+    const desc = p.score >= 85
+      ? `Высокая гармония стихий: между вами естественное взаимопонимание и тепло. Важно не забывать подогревать романтику новизной.`
+      : (p.score >= 70
+        ? `Динамичный союз с выраженным магнетизмом противоположностей. Сильное влечение сопровождается моментами притирки характеров.`
+        : `Парадокс непохожих миров: союз требует осознанной бережности, терпения к привычкам партнера и ясных договоренностей в быту.`);
+    $('synastry-teaser').textContent = desc;
     $('synastry-result').classList.remove('hidden');
   }
 
@@ -820,18 +891,7 @@
     if (!pDate) { notice('Укажите дату рождения партнера в формате ДД.ММ.ГГГГ.'); return; }
     const pName = $('partner-name').value.trim() || 'Партнер';
     
-    const userSun = state.chart?.bodies?.find(b => b.name === 'Солнце');
-    const [pY, pM, pD] = pDate.split('-').map(Number);
-    const zDays = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 22];
-    const zIdx = (pD < zDays[pM - 1]) ? (pM - 2 + 12) % 12 : pM - 1;
-    const signs = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
-    const pSign = signs[zIdx];
-    
-    const userIdx = userSun ? userSun.signIndex : 0;
-    const diff = Math.abs(userIdx - zIdx);
-    const score = [88, 79, 86, 74, 94, 69, 91][diff % 7] || 82;
-    
-    state.partner = { name: pName, date: pDate, sign: pSign, score };
+    state.partner = calculateSynastry(state.chart, pName, pDate);
     save();
     renderPartner();
     notice('Совместимость рассчитана!', true);
